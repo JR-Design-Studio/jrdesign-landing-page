@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Readout } from "@/components/Readout";
 import { howWeWork } from "@/lib/content";
 import { isLocale, locales, site, ui, type Locale } from "@/lib/i18n";
 
@@ -11,12 +12,18 @@ export function generateStaticParams() {
 }
 
 const copy = {
-  title: { es: "Somos dos, y eso es a propósito", en: "There are two of us, on purpose" },
+  title: {
+    es: "Somos dos, y eso es a propósito",
+    en: "There are two of us, on purpose",
+  },
   intro: {
     es: "JR Design es un estudio de dos personas en Guadalajara. Desde 2018 trabajamos en remoto con clientes de educación, salud, legal, retail, industria, interiorismo y construcción. Quien te contesta el correo es quien diseña y programa tu sitio.",
     en: "JR Design is a two-person studio in Guadalajara, Mexico. Since 2018 we have worked remotely with clients in education, health, legal, retail, industry, interiors and construction. Whoever answers your email is the person designing and building your site.",
   },
-  beliefsTitle: { es: "Cómo pensamos el trabajo", en: "How we think about the work" },
+  beliefsTitle: {
+    es: "Cómo pensamos el trabajo",
+    en: "How we think about the work",
+  },
   beliefs: {
     es: [
       {
@@ -56,7 +63,7 @@ const copy = {
     ],
   },
   processTitle: { es: "El proceso, sin sorpresas", en: "The process, no surprises" },
-  factsTitle: { es: "Datos duros", en: "The basics" },
+  factsTitle: { es: "Datos del estudio", en: "Studio facts" },
   ctaTitle: { es: "¿Empezamos?", en: "Shall we start?" },
 };
 
@@ -90,39 +97,47 @@ export default async function AboutPage({ params }: { params: Params }) {
   const l = locale as Locale;
 
   const facts = [
-    { k: l === "es" ? "Desde" : "Since", v: String(site.since) },
-    { k: l === "es" ? "Base" : "Based in", v: site.city[l] },
-    { k: l === "es" ? "Equipo" : "Team", v: l === "es" ? "Dos personas" : "Two people" },
-    {
-      k: l === "es" ? "Sectores" : "Sectors",
-      v:
-        l === "es"
-          ? "Educación, salud, legal, retail, industria, interiorismo, construcción"
-          : "Education, health, legal, retail, industry, interiors, construction",
-    },
+    { k: l === "es" ? "Operando desde" : "Running since", v: String(site.since) },
+    { k: l === "es" ? "Personas" : "People", v: "2" },
+    { k: l === "es" ? "Casos publicados" : "Published cases", v: "9" },
+    { k: l === "es" ? "Países" : "Countries", v: "2" },
   ];
 
   return (
     <div className="mx-auto max-w-[86rem] px-5 py-14 sm:px-8 sm:py-20">
-      <header className="max-w-3xl">
-        <h1 className="font-wide text-title font-semibold">{copy.title[l]}</h1>
-        <p className="mt-6 font-serif text-xl leading-[1.6] text-ink-soft sm:text-2xl">
+      <header>
+        <h1 className="font-wide max-w-[18ch] text-title font-semibold">
+          {copy.title[l]}
+        </h1>
+        <p className="measure mt-6 text-lg leading-relaxed text-ink-soft sm:text-xl">
           {copy.intro[l]}
         </p>
       </header>
 
-      <section className="mt-20">
-        <h2 className="tracking-label text-[0.62rem] text-muted">
+      <dl className="mt-12 grid gap-8 border-y border-ink/18 py-7 sm:grid-cols-4">
+        {facts.map((f) => (
+          <div key={f.k} className="flex flex-col-reverse">
+            <dt className="plate mt-1 text-muted">{f.k}</dt>
+            <dd>
+              <Readout value={f.v} className="text-2xl font-semibold" />
+            </dd>
+          </div>
+        ))}
+      </dl>
+
+      <section className="mt-16">
+        <h2 className="font-wide text-title font-semibold">
           {copy.beliefsTitle[l]}
         </h2>
-        <div className="mt-8 grid gap-px bg-ink/12 sm:grid-cols-2">
+        <div className="mt-8 grid gap-x-12 gap-y-10 sm:grid-cols-2">
           {copy.beliefs[l].map((b, i) => (
-            <article key={b.t} className="bg-paper py-8 pr-8 sm:px-8">
-              <span className="num tracking-label text-[0.62rem] text-red">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h3 className="font-wide mt-3 text-xl font-medium">{b.t}</h3>
-              <p className="mt-3 max-w-md text-sm leading-relaxed text-ink-soft">
+            <article key={b.t} className="border-t border-ink/25 pt-5">
+              <Readout
+                value={String(i + 1).padStart(2, "0")}
+                className="text-[0.68rem] text-muted"
+              />
+              <h3 className="font-wide mt-3 text-xl font-semibold">{b.t}</h3>
+              <p className="measure mt-3 text-sm leading-relaxed text-ink-soft">
                 {b.d}
               </p>
             </article>
@@ -134,17 +149,21 @@ export default async function AboutPage({ params }: { params: Params }) {
         <h2 className="font-wide text-title font-semibold">
           {copy.processTitle[l]}
         </h2>
-        <ol className="mt-10 max-w-3xl border-t border-ink/12">
-          {howWeWork.map((phase) => (
+        <ol className="mt-8 max-w-3xl border-t border-ink/18">
+          {howWeWork.map((phase, i) => (
             <li
               key={phase.n}
-              className="grid gap-2 border-b border-ink/12 py-6 sm:grid-cols-[4rem_1fr] sm:gap-6"
+              className="grid gap-2 border-b border-ink/18 py-6 sm:grid-cols-[4.5rem_1fr] sm:gap-6"
             >
-              <span className="num tracking-label text-[0.62rem] text-red sm:pt-1.5">
-                {phase.n}
-              </span>
+              <Readout
+                value={phase.n}
+                live={i === 0}
+                className="text-[0.68rem] text-muted sm:pt-1.5"
+              />
               <div>
-                <h3 className="font-wide text-lg font-medium">{phase.title[l]}</h3>
+                <h3 className="font-wide text-lg font-semibold">
+                  {phase.title[l]}
+                </h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                   {phase.body[l]}
                 </p>
@@ -154,32 +173,20 @@ export default async function AboutPage({ params }: { params: Params }) {
         </ol>
       </section>
 
-      <section className="mt-20">
-        <h2 className="tracking-label text-[0.62rem] text-muted">
-          {copy.factsTitle[l]}
-        </h2>
-        <dl className="mt-6 grid gap-6 border-t border-ink/12 pt-6 sm:grid-cols-2 lg:grid-cols-4">
-          {facts.map((f) => (
-            <div key={f.k}>
-              <dt className="tracking-label text-[0.62rem] text-muted">{f.k}</dt>
-              <dd className="mt-1.5 text-sm">{f.v}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <section className="mt-20 border-t border-ink/12 pt-14">
+      <section className="mt-20 border-t border-ink/18 pt-12">
         <h2 className="font-wide text-title font-semibold">{copy.ctaTitle[l]}</h2>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
-          <Link
-            href={`/${l}/contacto`}
-            className="tracking-label bg-ink px-7 py-4 text-[0.7rem] text-white transition-colors hover:bg-red"
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          <a
+            href={site.whatsappHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="plate bg-red px-6 py-4 text-white transition-colors hover:bg-red-deep"
           >
-            {ui.cta[l]}
-          </Link>
+            {ui.whatsapp[l]}
+          </a>
           <Link
             href={`/${l}/portafolio`}
-            className="tracking-label border border-ink/25 px-7 py-4 text-[0.7rem] transition-colors hover:border-ink"
+            className="plate border border-ink/30 px-6 py-4 transition-colors hover:border-ink hover:bg-white"
           >
             {ui.allCases[l]}
           </Link>

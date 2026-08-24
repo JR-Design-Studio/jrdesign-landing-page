@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import type { ProcessStep } from "@/lib/projects";
 import type { Locale } from "@/lib/i18n";
+import { Readout } from "./Readout";
 
 /**
- * Los cinco pasos del caso, con el punto rojo del logotipo recorriendo el riel
- * conforme avanzas. Es una secuencia real de proceso, no decoración.
+ * Los cinco pasos del caso corren por un riel: el índice marca el paso encendido
+ * y la señal salta de uno a otro conforme avanzas. Es una secuencia real de
+ * proceso, no una decoración numerada.
  */
 export function ProcessRail({
   steps,
@@ -32,57 +34,62 @@ export function ProcessRail({
         const idx = nodes.indexOf(visible.target as HTMLElement);
         if (idx >= 0) setCurrent(idx);
       },
-      { rootMargin: "-30% 0px -55% 0px", threshold: 0 },
+      { rootMargin: "-28% 0px -55% 0px", threshold: 0 },
     );
     nodes.forEach((n) => io.observe(n));
     return () => io.disconnect();
   }, [steps]);
 
   return (
-    <div className="grid gap-10 md:grid-cols-[13rem_1fr] md:gap-16">
-      {/* Riel: índice pegajoso en escritorio */}
+    <div className="grid gap-10 md:grid-cols-[14rem_1fr] md:gap-16">
       <nav
-        aria-label="Proceso"
-        className="top-28 hidden h-fit self-start md:sticky md:block"
+        aria-label={locale === "es" ? "Proceso" : "Process"}
+        className="top-24 hidden h-fit self-start md:sticky md:block"
       >
-        <ol className="relative border-l border-ink/15 pl-6">
-          <span
-            className="absolute -left-[4.5px] size-2 rounded-full bg-red transition-[top] duration-500 ease-out"
-            style={{ top: `${current * 2.5 + 0.45}rem` }}
-            aria-hidden
-          />
-          {steps.map((step, i) => (
-            <li key={step.key} className="h-10">
-              <a
-                href={`#paso-${step.key}`}
-                className={`tracking-label num text-[0.66rem] transition-colors ${
-                  i === current ? "text-ink" : "text-muted hover:text-ink"
-                }`}
-              >
-                <span className="mr-2">{String(i + 1).padStart(2, "0")}</span>
-                {step.title[locale]}
-              </a>
-            </li>
-          ))}
+        <ol className="border-l border-ink/25">
+          {steps.map((step, i) => {
+            const on = i === current;
+            return (
+              <li key={step.key}>
+                <a
+                  href={`#paso-${step.key}`}
+                  className={`-ml-px flex items-center gap-3 border-l-2 py-2.5 pl-4 transition-colors ${
+                    on
+                      ? "border-red text-ink"
+                      : "border-transparent text-muted hover:text-ink"
+                  }`}
+                >
+                  <Readout
+                    value={String(i + 1).padStart(2, "0")}
+                    live={on}
+                    className="text-[0.68rem]"
+                  />
+                  <span className="plate">{step.title[locale]}</span>
+                </a>
+              </li>
+            );
+          })}
         </ol>
       </nav>
 
-      <div className="max-w-[46rem]">
+      <div className="measure">
         {steps.map((step, i) => (
           <section
             key={step.key}
             id={`paso-${step.key}`}
-            className="scroll-mt-32 border-t border-ink/12 py-8 first:border-t-0 first:pt-0 sm:py-12"
+            className="scroll-mt-28 border-t border-ink/18 py-8 first:border-t-0 first:pt-0 sm:py-10"
           >
             <div className="flex items-baseline gap-4">
-              <span className="num tracking-label text-[0.66rem] text-red">
-                {String(i + 1).padStart(2, "0")}
-              </span>
-              <h2 className="font-wide text-xl font-medium sm:text-2xl">
+              <Readout
+                value={String(i + 1).padStart(2, "0")}
+                live={i === current}
+                className="text-[0.68rem] text-muted"
+              />
+              <h2 className="font-wide text-xl font-semibold sm:text-2xl">
                 {step.title[locale]}
               </h2>
             </div>
-            <p className="mt-4 font-serif text-lg leading-[1.7] text-ink-soft sm:text-xl">
+            <p className="mt-4 text-base leading-relaxed text-ink-soft sm:text-lg">
               {step.body[locale]}
             </p>
           </section>

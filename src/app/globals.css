@@ -1,28 +1,33 @@
 @import "tailwindcss";
 
 @theme {
+  /* Paleta del manual de marca. Roles fijos, sin adiciones. */
   --color-paper: #e6e6e6;
   --color-white: #ffffff;
   --color-ink: #262626;
   --color-ink-soft: #3a3a3a;
   --color-gray: #8a8a8a;
-  /* Gris de texto que sí pasa AA sobre paper y white (5.2:1). */
+  /* Gris de texto derivado que sí pasa AA sobre paper y white (5.2:1). */
   --color-muted: #5c5c5c;
   --color-red: #c1282d;
   --color-red-deep: #9d1f23;
 
-  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
-  --font-sans: var(--font-archivo), "Archivo", system-ui, sans-serif;
-  --font-serif: var(--font-newsreader), Georgia, serif;
+  --font-display: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
 
-  --text-display: clamp(2.75rem, 8vw, 6.5rem);
-  --text-display--line-height: 0.92;
-  --text-title: clamp(1.9rem, 4.2vw, 3.25rem);
-  --text-title--line-height: 1.02;
+  --text-display: clamp(2.6rem, 6.4vw, 5.5rem);
+  --text-display--line-height: 0.94;
+  --text-title: clamp(1.8rem, 3.6vw, 3rem);
+  --text-title--line-height: 1.04;
+
+  /* Sombra de instrumento: desplazamiento + desenfoque real, nunca halo. */
+  --shadow-panel: 0 12px 28px -18px rgb(38 38 38 / 0.55);
+  --shadow-lift: 0 22px 44px -24px rgb(38 38 38 / 0.6);
 }
 
 :root {
   color-scheme: light;
+  scrollbar-color: var(--color-gray) var(--color-paper);
 }
 
 html {
@@ -33,47 +38,112 @@ body {
   background: var(--color-paper);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-variation-settings: "opsz" 16;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
+/* Superficies del navegador: también son parte del instrumento. */
 ::selection {
   background: var(--color-red);
   color: #fff;
 }
 
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+::-webkit-scrollbar-track {
+  background: color-mix(in srgb, var(--color-ink) 8%, transparent);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gray);
+  border: 3px solid var(--color-paper);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-ink-soft);
+}
+
 :focus-visible {
   outline: 2px solid var(--color-red);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 1px;
 }
 
-/* Display: Archivo con eje de ancho expandido, como las caps del logotipo */
+input,
+textarea,
+select {
+  caret-color: var(--color-red);
+}
+
+a {
+  text-underline-offset: 0.28em;
+  text-decoration-thickness: 1px;
+}
+
+/* --- Gramática del instrumento --------------------------------------- */
+
+/* Display: Inter en tamaño óptico grande, apretado como las caps del logotipo. */
 .font-wide {
-  font-variation-settings: "wdth" 112;
-  letter-spacing: -0.02em;
+  font-variation-settings: "opsz" 32;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
-.tracking-label {
+/* Serigrafía sobre metal: nombra un control o una lectura. */
+.plate {
+  font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
+  font-weight: 500;
 }
 
 .num {
   font-variant-numeric: tabular-nums;
 }
 
-/* Revelado al entrar en viewport */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(14px);
-  transition:
-    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+.measure {
+  max-width: 68ch;
 }
-[data-reveal="in"] {
+
+/* Carátula clara montada sobre el chasis. */
+.panel {
+  background: var(--color-white);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+  border-radius: 2px;
+  box-shadow: var(--shadow-panel);
+}
+
+.panel-flush {
+  background: var(--color-white);
+  border: 1px solid color-mix(in srgb, var(--color-ink) 15%, transparent);
+  border-radius: 2px;
+}
+
+/* Celda de lectura: la ausencia se dibuja igual que la luz. */
+.cell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 0.66em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cell-ghost {
+  color: color-mix(in srgb, var(--color-gray) 32%, transparent);
+}
+
+/* Encendido de la consola: el estado final es el estado por defecto. */
+.js [data-boot="wait"] {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.js [data-boot="on"] {
   opacity: 1;
   transform: none;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -87,7 +157,7 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
-  [data-reveal] {
+  .js [data-boot="wait"] {
     opacity: 1;
     transform: none;
   }

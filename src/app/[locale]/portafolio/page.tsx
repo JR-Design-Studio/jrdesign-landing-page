@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProjectIndex } from "@/components/ProjectIndex";
-import { ProjectVisual } from "@/components/ProjectVisual";
+import { ProjectDrawers } from "@/components/ProjectDrawers";
 import { projects } from "@/lib/projects";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
 
@@ -12,7 +11,10 @@ export function generateStaticParams() {
 }
 
 const copy = {
-  title: { es: "Nueve proyectos, nueve decisiones", en: "Nine projects, nine decisions" },
+  title: {
+    es: "Nueve proyectos, nueve decisiones",
+    en: "Nine projects, nine decisions",
+  },
   lede: {
     es: "Cada caso cuenta cómo se pensó, no solo cómo quedó: el contexto, lo que se investigó, el reto real y la decisión que cambió el resultado.",
     en: "Each case explains how it was thought through, not just how it looks: the context, the research, the real challenge and the decision that changed the outcome.",
@@ -49,30 +51,19 @@ export default async function PortfolioPage({ params }: { params: Params }) {
   if (!isLocale(locale)) notFound();
   const l = locale as Locale;
 
-  const preview = Object.fromEntries(
-    projects.map((p) => [
-      p.slug,
-      <ProjectVisual
-        key={p.slug}
-        project={p}
-        locale={l}
-        sizes="(min-width: 1024px) 45vw, 100vw"
-        className="h-full w-full"
-      />,
-    ]),
-  );
-
   return (
     <div className="mx-auto max-w-[86rem] px-5 py-14 sm:px-8 sm:py-20">
-      <header className="max-w-3xl">
-        <h1 className="font-wide text-title font-semibold">{copy.title[l]}</h1>
-        <p className="mt-5 max-w-2xl font-serif text-lg leading-[1.65] text-ink-soft sm:text-xl">
+      <header>
+        <h1 className="font-wide max-w-[16ch] text-title font-semibold">
+          {copy.title[l]}
+        </h1>
+        <p className="measure mt-5 text-base leading-relaxed text-ink-soft sm:text-lg">
           {copy.lede[l]}
         </p>
       </header>
 
       <div className="mt-14 sm:mt-20">
-        <ProjectIndex projects={projects} locale={l} preview={preview} />
+        <ProjectDrawers projects={projects} locale={l} />
       </div>
     </div>
   );

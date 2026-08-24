@@ -1,23 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Archivo, Newsreader } from "next/font/google";
+import { Inter } from "next/font/google";
 import "../globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { isLocale, locales, site, type Locale } from "@/lib/i18n";
 
-// Display y UI: Archivo variable, con eje de ancho para las caps del logotipo.
-const archivo = Archivo({
-  variable: "--font-archivo",
+// Una sola familia en todo el sitio: Inter variable, con eje óptico para que
+// los tamaños de display aprieten y los de texto respiren.
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  axes: ["wdth"],
-  display: "swap",
-});
-
-// Prosa de los casos: una face de lectura, no la misma del display.
-const newsreader = Newsreader({
-  variable: "--font-newsreader",
-  subsets: ["latin"],
+  axes: ["opsz"],
   display: "swap",
 });
 
@@ -92,18 +86,20 @@ export default async function LocaleLayout({
   return (
     <html
       lang={current}
-      className={`${archivo.variable} ${newsreader.variable} h-full`}
+      className={`${inter.variable} h-full`}
     >
       <head>
-        {/* Sin JS el revelado no se dispara: el contenido debe verse igual. */}
-        <noscript>
-          <style>{`[data-reveal]{opacity:1 !important;transform:none !important}`}</style>
-        </noscript>
+        {/* La consola solo puede "apagarse" si hay JS para encenderla. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
       </head>
       <body className="flex min-h-full flex-col">
         <a
           href="#contenido"
-          className="tracking-label sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-ink focus:px-4 focus:py-3 focus:text-[0.7rem] focus:text-white"
+          className="plate sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-red focus:px-4 focus:py-3 focus:text-white"
         >
           {current === "en" ? "Skip to content" : "Ir al contenido"}
         </a>

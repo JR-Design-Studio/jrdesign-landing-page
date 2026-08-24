@@ -44,7 +44,7 @@ function Submit({ locale }: { locale: Locale }) {
     <button
       type="submit"
       disabled={pending}
-      className="tracking-label bg-ink px-7 py-4 text-[0.7rem] text-white transition-colors hover:bg-red disabled:opacity-50"
+      className="plate bg-red px-7 py-4 text-white transition-colors hover:bg-red-deep disabled:opacity-50"
     >
       {pending ? copy.sending[locale] : copy.send[locale]}
     </button>
@@ -62,12 +62,12 @@ export function ContactForm({ locale }: { locale: Locale }) {
   }
 
   const field =
-    "w-full border-b border-ink/25 bg-transparent py-3 text-base outline-none transition-colors placeholder:text-muted focus:border-red";
+    "w-full border-b border-ink/25 bg-transparent py-2.5 text-base outline-none transition-colors placeholder:text-muted focus:border-red";
 
   if (state.ok && state.message) {
     return (
-      <div className="border-l-2 border-red bg-white p-8">
-        <p className="font-wide text-2xl font-medium">{state.message}</p>
+      <div className="border border-ink/15 bg-white p-8">
+        <p className="font-wide text-2xl font-semibold">{state.message}</p>
       </div>
     );
   }
@@ -90,7 +90,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
 
       <div className="grid gap-7 sm:grid-cols-2">
         <div>
-          <label htmlFor="name" className="tracking-label text-[0.62rem] text-muted">
+          <label htmlFor="name" className="plate text-muted">
             {copy.name[locale]}
           </label>
           <input
@@ -108,7 +108,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           )}
         </div>
         <div>
-          <label htmlFor="email" className="tracking-label text-[0.62rem] text-muted">
+          <label htmlFor="email" className="plate text-muted">
             {copy.email[locale]}
           </label>
           <input
@@ -132,7 +132,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
         <div>
           <label
             htmlFor="company"
-            className="tracking-label text-[0.62rem] text-muted"
+            className="plate text-muted"
           >
             {copy.company[locale]}
           </label>
@@ -144,7 +144,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
           />
         </div>
         <div>
-          <label htmlFor="kind" className="tracking-label text-[0.62rem] text-muted">
+          <label htmlFor="kind" className="plate text-muted">
             {copy.kind[locale]}
           </label>
           <select id="kind" name="kind" className={field} defaultValue="sitio">
@@ -158,7 +158,7 @@ export function ContactForm({ locale }: { locale: Locale }) {
       </div>
 
       <div>
-        <label htmlFor="message" className="tracking-label text-[0.62rem] text-muted">
+        <label htmlFor="message" className="plate text-muted">
           {copy.message[locale]}
         </label>
         <textarea

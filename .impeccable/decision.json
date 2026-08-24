@@ -1,0 +1,163 @@
+{
+  "title": "Rediseño JR Design — elige el mundo visual",
+  "question": "El tiro asignó «Sala de Instrumentos». Quédatelo, toma una alternativa o vuelve a tirar.",
+  "options": [
+    {
+      "id": "assigned",
+      "label": "Sala de Instrumentos",
+      "kicker": "EL TIRO",
+      "lineage": "consolas de operación analógicas: tableros de planta, cabinas de control, instrumentos con carátula de papel",
+      "thesis": "El sitio no muestra proyectos: muestra nueve sistemas en operación, cada uno con sus lecturas encendidas.",
+      "palette": ["#E6E6E6", "#FFFFFF", "#262626", "#8A8A8A", "#C1282D"],
+      "materials": [
+        "carátula de papel sobre chasis de tinta",
+        "rieles metálicos",
+        "serigrafía de etiqueta",
+        "cero glow, cero vidrio"
+      ],
+      "viewport": "Chasis ink a sangre; dentro, una carátula clara con el titular en Inter grande y, a su derecha, la consola: un navegador construido en código mostrando el catálogo de Disolab sincronizándose desde Odoo, con la lectura «capturas duplicadas: 0» encendiéndose en rojo.",
+      "case": "El mecanismo del estudio es literalmente ese: conectar la web al sistema que la empresa ya opera. La consola lo dramatiza sin fotos, que es justo lo que no tenemos.",
+      "risk": "Una consola sobre fondo oscuro con un solo acento rojo es exactamente el cliché de dashboard con neón. Se evita al revés: carátulas claras de papel, bordes duros, el rojo solo como señal viva; si el render aparece brillante o con blur, falló.",
+      "raised": [
+        {
+          "from": "challenger-seven-segment",
+          "raise": "Las lecturas usan máscara de celdas fijas con celdas fantasma: la ausencia se dibuja igual que la luz, y los cambios de estado saltan, nunca se desvanecen."
+        },
+        {
+          "from": "challenger-generative-identity",
+          "raise": "Toda la superficie deriva de un solo juego de tokens de señal: panel, etiqueta, estado y foco leen del mismo origen, en vez de estilos sueltos por sección."
+        },
+        {
+          "from": "challenger-sneaker-box-stacks",
+          "raise": "El índice de casos se comporta como cajones del instrumento: cara del cajón, jalón a medias con la lectura previa, apertura al caso completo."
+        },
+        {
+          "from": "challenger-zine",
+          "raise": "El mecanismo de Disolab se dibuja como diagrama autorado (Odoo → web) en vez de afirmarse en una frase."
+        },
+        {
+          "from": "challenger-film",
+          "raise": "Ninguna textura es decorativa: el desgaste, los folios y las marcas van atados a un dato real (año, paso 01-05, sector)."
+        },
+        {
+          "from": "challenger-telop",
+          "raise": "La escala tipográfica mapea importancia de señal, no gusto: lo que el visitante debe creer es lo más grande de su banda."
+        }
+      ],
+      "wireframe": {
+        "cols": 12,
+        "rows": 10,
+        "regions": [
+          { "label": "riel de marca + nav", "x": 0, "y": 0, "w": 12, "h": 1 },
+          { "label": "titular / tesis", "x": 0, "y": 1, "w": 5, "h": 4 },
+          { "label": "consola: mockup Disolab en código", "x": 5, "y": 1, "w": 7, "h": 6, "accent": true },
+          { "label": "lecturas 2018 · 9 casos · MX/US", "x": 0, "y": 5, "w": 5, "h": 2 },
+          { "label": "cajones de casos 01-09", "x": 0, "y": 7, "w": 12, "h": 2 },
+          { "label": "acción: WhatsApp / formulario", "x": 0, "y": 9, "w": 12, "h": 1, "accent": true }
+        ]
+      }
+    },
+    {
+      "id": "model-pick",
+      "label": "El Panel de Operación",
+      "kicker": "IMPECCABLE’S PICK",
+      "lineage": "la pantalla de Odoo que el cliente ya mira todos los días: filas, filtros, pills de estado, hora de última sincronización",
+      "thesis": "El sitio se ve como el sistema que el cliente ya usa, para que entienda de inmediato dónde entra el estudio.",
+      "palette": ["#E6E6E6", "#FFFFFF", "#262626", "#8A8A8A", "#C1282D"],
+      "materials": ["filas de tabla", "pills de estado", "barras de herramientas", "densidad de app"],
+      "viewport": "Una vista de lista a pantalla completa: nueve registros (los casos) con sector, año y estado, filtros arriba y el detalle de Disolab abierto a la derecha.",
+      "case": "Es mi candidato mejor rankeado y el que más rápido explica el mecanismo.",
+      "risk": "Es también lo que cualquier estudio técnico enviaría: un dashboard más. Y una landing que se disfraza de app le pide trabajo al dueño de negocio que vino a decidir, no a operar."
+    },
+    {
+      "id": "challenger-seven-segment",
+      "label": "Display de Siete Segmentos",
+      "verdict": "competitive",
+      "lineage": "relojes de buró, totems de precio de gasolinera, marcadores de estadio",
+      "thesis": "Todo el sitio habla con una sola máscara de ocho celdas donde los segmentos apagados también están diseñados.",
+      "palette": ["#262626", "#C1282D", "#8A8A8A", "#E6E6E6"],
+      "materials": ["máscara de celdas", "segmentos fantasma", "salto instantáneo"],
+      "viewport": "Portada como totem: cifras enormes por celdas fijas, los nueve casos como marcador.",
+      "case": "Fusiona bien en identificación —el totem de gasolinera y el marcador son mundo conocido en México— pero pierde en claridad: nueve casos con proceso 01-05 son prosa, y una máscara de dígitos no sabe leer prosa.",
+      "risk": "Se vuelve novedad retro en cuanto la rejilla deja de ser estricta.",
+      "kept": "La ausencia dibujada como la luz, y el cambio de estado que salta en vez de desvanecerse."
+    },
+    {
+      "id": "challenger-generative-identity",
+      "label": "Identidad Paramétrica",
+      "verdict": "declined",
+      "lineage": "marcas generativas que se resiembran desde parámetros vivos",
+      "thesis": "Una semilla redibuja la marca y de ahí salen paleta, ritmo y layout.",
+      "palette": ["#C1282D", "#262626", "#E6E6E6"],
+      "materials": ["SVG paramétrico", "superficies vectoriales planas"],
+      "viewport": "Marca que se redibuja en vivo con un panel de parámetros.",
+      "case": "Pierde en los dos ejes: al dueño de una PyME no le habla una marca generativa, y la forma no explica el mecanismo del estudio.",
+      "risk": "Espectáculo de identidad que no vende un proyecto.",
+      "kept": "Un solo origen de verdad derivando toda la superficie."
+    },
+    {
+      "id": "challenger-sneaker-box-stacks",
+      "label": "Muro de Cajas",
+      "verdict": "declined",
+      "lineage": "archivo de cajas de tenis apiladas, etiqueta al canto",
+      "thesis": "El catálogo como muro de cajas que se jalan y se abren.",
+      "palette": ["#262626", "#E6E6E6", "#FFFFFF", "#C1282D"],
+      "materials": ["cartón", "arte de silueta a una línea", "papel de china"],
+      "viewport": "Muro de cantos etiquetados; una caja sale a medias y abre la tapa.",
+      "case": "Pierde en identificación: el mundo sneakerhead no es el del director de una PyME industrial.",
+      "risk": "Se lee moda, no operación.",
+      "kept": "Divulgación progresiva con jerarquía física: cara, jalón, apertura."
+    },
+    {
+      "id": "challenger-telop",
+      "label": "Campo de Telops",
+      "verdict": "declined",
+      "lineage": "rótulos de variedad japoneses colocados a mano",
+      "thesis": "Rótulos multicolor delineados que dimensionan la emoción del habla.",
+      "palette": ["#C1282D", "#FFFFFF", "#262626"],
+      "materials": ["relleno de alta croma", "contorno de contraste", "rotación como puntuación"],
+      "viewport": "Frases que aterrizan a escalas distintas según intensidad.",
+      "case": "Pierde en los dos ejes: contradice de frente la voz sobria del estudio y la desconfianza del cliente hacia lo estridente.",
+      "risk": "Ruido donde se pedía confianza.",
+      "kept": "Escala mapeada a intensidad."
+    },
+    {
+      "id": "challenger-film",
+      "label": "Película Revelada a Mano",
+      "verdict": "declined",
+      "lineage": "16mm procesado a mano, rayones y fugas de luz",
+      "thesis": "La emulsión participa del evento fotografiado.",
+      "palette": ["#262626", "#8A8A8A", "#C1282D"],
+      "materials": ["grano", "código de borde", "empalmes"],
+      "viewport": "Tiras de fotogramas con numeración al margen.",
+      "case": "Pierde en los dos ejes: no hay fotografía real que revelar, y el mundo cinematográfico no aclara qué hace el estudio.",
+      "risk": "Filtro nostálgico sobre contenido de negocio.",
+      "kept": "Artefactos atados a un evento exacto, nunca filtro genérico."
+    },
+    {
+      "id": "challenger-zine",
+      "label": "Fanzine Técnico a Mano",
+      "verdict": "declined",
+      "lineage": "zine dibujado con marcador, flechas y mascota",
+      "thesis": "Un concepto difícil explicado como te lo dibuja un amigo en una servilleta.",
+      "palette": ["#E6E6E6", "#262626", "#C1282D"],
+      "materials": ["papel crema", "tinta de marcador", "trazo dibujado"],
+      "viewport": "Paneles numerados con diagramas dibujados a mano.",
+      "case": "Pierde en identificación: la calidez de servilleta choca con un cliente que evalúa capacidad; el fondo crema es además el default que hay que evitar.",
+      "risk": "Simpático y poco creíble para un contrato de seis cifras.",
+      "kept": "Enseñar el mecanismo paso a paso con un diagrama de verdad."
+    }
+  ],
+  "canonCard": {
+    "label": "El estándar de la categoría",
+    "thesis": "Tipografía enorme, grid de mockups y un acento, ejecutado impecable.",
+    "palette": ["#FFFFFF", "#262626", "#C1282D"],
+    "materials": ["grid limpio", "mockups de proyecto", "mucho aire"],
+    "viewport": "Lo que el visitante espera de un estudio, al máximo nivel de acabado.",
+    "risk": "Indistinguible de cualquier otro estudio, por diseño. Es lo que ya está construido hoy."
+  },
+  "canon": true,
+  "reroll": { "registers": ["safer", "bolder"] },
+  "steer": true,
+  "buildPath": { "value": "code", "toggle": false }
+}

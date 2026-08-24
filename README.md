@@ -17,26 +17,36 @@ npm run build
 junto a servicios de alto valor manda una señal confusa. `/shop`, `/shop/*`, `/carrito` y
 `/checkout` redirigen 301 a `/es/servicios` (ver `next.config.ts`).
 
-## Dirección visual
+## Dirección visual — Sala de Instrumentos
 
-Paleta de la identidad, sin inventar nada:
+El sitio no expone proyectos: expone **nueve sistemas en operación**. Chasis de tinta,
+carátulas de papel, etiquetas serigrafiadas y lecturas por celdas, porque el mecanismo
+real del estudio es conectar la web al sistema que la empresa ya opera. Las decisiones
+durables viven en [DESIGN.md](DESIGN.md); la verdad de producto, en
+[PRODUCT.md](PRODUCT.md).
 
-| Nombre  | Hex       | Uso                                             |
-| ------- | --------- | ----------------------------------------------- |
-| Paper   | `#E6E6E6` | fondo base                                      |
-| White   | `#FFFFFF` | superficies elevadas                            |
-| Ink     | `#262626` | tipografía y secciones invertidas               |
-| Gray    | `#8A8A8A` | metadatos, líneas, estados inactivos            |
-| JR Red  | `#C1282D` | **solo puntuación**: el punto, el paso activo, el foco |
+Paleta del manual, sin adiciones:
 
-**Tipografía:** `Archivo` variable (eje `wdth`, clase `.font-wide`) para display y UI —
-recoge las mayúsculas anchas del logotipo; `Newsreader` para la prosa de los casos.
+| Nombre | Hex | Uso |
+| --- | --- | --- |
+| Paper | `#E6E6E6` | carátula: fondo de página |
+| White | `#FFFFFF` | paneles activos y pantallas de mockup |
+| Ink | `#262626` | chasis: cabecera, cierres, secciones invertidas |
+| Gray | `#8A8A8A` | celdas fantasma, reglas, material inerte |
+| JR Red | `#C1282D` | **solo señal viva**: estado activo, foco, el punto |
 
-**Elemento signature — el punto.** El punto rojo del logotipo es el hilo conductor:
-marca el caso apuntado en el índice de portafolio (y revela su vista previa en el panel
-fijo), y baja por el riel de proceso 01–05 del caso de estudio conforme haces scroll.
-Todo lo demás se mantiene silencioso. Motion mínimo y `prefers-reduced-motion` respetado
-en `globals.css`.
+**Tipografía:** Inter, única familia. El carácter viene del uso, no de la fuente:
+display con `opsz 32` y tracking apretado, etiquetas serigrafiadas de 11px y cifras
+tabulares en celda fija.
+
+**Evidencia autorada:** no hay fotos de los proyectos, así que la interfaz de cada
+cliente está **reconstruida en código** (`BrowserMock`, `PhoneMock`, `ProjectScreen`) y
+etiquetada como reconstrucción. El mecanismo de Disolab se demuestra con un diagrama
+autorado (`SyncDiagram`), no se afirma en una frase.
+
+**Movimiento:** un solo momento orquestado, el encendido de la consola en la portada
+(`ConsoleBoot`). El estado final es el estado por defecto: sin JavaScript o con
+`prefers-reduced-motion`, todo aparece encendido.
 
 ## Estructura
 
@@ -67,16 +77,17 @@ Hoy vive en TypeScript, editable sin tocar componentes:
 La forma de los datos ya está definida por los tipos `Project` y `Testimonial`, así que
 el cambio es de origen de datos, no de componentes.
 
-## Imágenes del portafolio — pendiente
+## Imágenes reales del portafolio
 
-`ProjectVisual` renderiza una placa tipográfica de marca mientras un caso no tiene foto.
-Para publicar las reales:
+Hoy la evidencia son las interfaces reconstruidas en código. Cuando existan capturas o
+fotos reales:
 
-1. Coloca los archivos en `public/projects/<slug>/cover.webp` (y las que quieras en `shots`).
-2. Pon esa ruta en el campo `cover` del proyecto en `src/lib/projects.ts`.
+1. Coloca los archivos en `public/projects/<slug>/`.
+2. Llena el campo `cover` del proyecto en `src/lib/projects.ts` y sírvelos con
+   `next/image` (AVIF/WebP).
 
-A partir de ahí se sirven con `next/image` en AVIF/WebP. **Los Core Web Vitals hay que
-medirlos con estas imágenes reales cargadas**, no con las placas.
+**Los Core Web Vitals hay que medirlos con esas imágenes cargadas**, no con las
+reconstrucciones.
 
 ## Formulario de contacto
 
@@ -102,7 +113,7 @@ está hoy son los patrones conocidos, no el mapa exportado.
 
 ## Pendientes conscientes
 
-- Imágenes reales del portafolio (arriba).
+- Fotos o capturas reales del portafolio (arriba).
 - Mapa completo de redirects desde el sitio viejo.
 - Decidir si se conserva el Meta Pixel; si sí, montarlo con carga diferida.
 - Migración del contenido a CMS headless.
