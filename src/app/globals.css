@@ -1,26 +1,94 @@
 @import "tailwindcss";
 
+@theme {
+  --color-paper: #e6e6e6;
+  --color-white: #ffffff;
+  --color-ink: #262626;
+  --color-ink-soft: #3a3a3a;
+  --color-gray: #8a8a8a;
+  /* Gris de texto que sí pasa AA sobre paper y white (5.2:1). */
+  --color-muted: #5c5c5c;
+  --color-red: #c1282d;
+  --color-red-deep: #9d1f23;
+
+  --font-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-sans: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-serif: var(--font-newsreader), Georgia, serif;
+
+  --text-display: clamp(2.75rem, 8vw, 6.5rem);
+  --text-display--line-height: 0.92;
+  --text-title: clamp(1.9rem, 4.2vw, 3.25rem);
+  --text-title--line-height: 1.02;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-red);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-red);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Display: Archivo con eje de ancho expandido, como las caps del logotipo */
+.font-wide {
+  font-variation-settings: "wdth" 112;
+  letter-spacing: -0.02em;
+}
+
+.tracking-label {
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Revelado al entrar en viewport */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+[data-reveal="in"] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 }
