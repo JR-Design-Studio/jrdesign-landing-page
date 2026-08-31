@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import type { Locale } from "@/lib/i18n";
 import { createPortal } from "react-dom";
 
 /** Piezas del trabajo publicado, tal como salen del sitio en producción. */
@@ -16,7 +17,12 @@ const SHOTS = [
 const EVERY = 4000;
 
 /** Las piezas se relevan solas, con un fundido entre una y la siguiente. */
-export function WorkCarousel() {
+const label = {
+  prev: { es: "Anterior", en: "Previous" },
+  next: { es: "Siguiente", en: "Next" },
+} as const;
+
+export function WorkCarousel({ locale }: { locale: Locale }) {
   const [at, setAt] = useState(0);
   const [offset, setOffset] = useState(0);
   const from = useRef<number | null>(null);
@@ -142,7 +148,7 @@ export function WorkCarousel() {
 
       <button
         type="button"
-        aria-label="Anterior"
+        aria-label={label.prev[locale]}
         onPointerDown={(event) => event.stopPropagation()}
         onClick={() => go(-1)}
         className={`absolute left-4 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur-sm transition-colors ${
@@ -154,7 +160,7 @@ export function WorkCarousel() {
 
       <button
         type="button"
-        aria-label="Siguiente"
+        aria-label={label.next[locale]}
         onPointerDown={(event) => event.stopPropagation()}
         onClick={() => go(1)}
         className={`absolute right-4 top-1/2 flex size-10 -translate-y-1/2 items-center justify-center rounded-full backdrop-blur-sm transition-colors ${
@@ -242,7 +248,7 @@ export function WorkCarousel() {
           >
             <button
               type="button"
-              aria-label="Anterior"
+              aria-label={label.prev[locale]}
               onClick={() => go(-1)}
               className="flex size-11 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors hover:bg-white/35"
             >
@@ -265,7 +271,7 @@ export function WorkCarousel() {
 
             <button
               type="button"
-              aria-label="Siguiente"
+              aria-label={label.next[locale]}
               onClick={() => go(1)}
               className="flex size-11 items-center justify-center rounded-full bg-white/20 backdrop-blur-sm transition-colors hover:bg-white/35"
             >

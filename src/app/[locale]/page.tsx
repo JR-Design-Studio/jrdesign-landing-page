@@ -240,7 +240,7 @@ export default async function HomePage({ params }: { params: Params }) {
           </div>
 
           <div className="order-1 lg:order-none lg:sticky lg:top-28">
-            <WorkCarousel />
+            <WorkCarousel locale={l} />
           </div>
         </div>
       </section>

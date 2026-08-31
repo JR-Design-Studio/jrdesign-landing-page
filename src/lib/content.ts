@@ -240,7 +240,7 @@ export type StackService = {
   title: Localized;
   titleTail: Localized;
   body: Localized;
-  pills: string[];
+  pills: Localized[];
 };
 
 /** Los cuatro frentes del estudio, en el orden en que se contratan. */
@@ -253,7 +253,13 @@ export const serviceStack: StackService[] = [
       es: "Todo sitio empieza con un objetivo: que la visita se convierta en cliente. Diseñamos páginas fáciles de recorrer, que se ven bien y llevan a la acción.",
       en: "Every site starts with one goal: turning a visit into a client. We design pages that are easy to move through, look sharp and lead to action.",
     },
-    pills: ["UI/UX", "Next.js", "Interacciones", "SEO", "Responsive"],
+    pills: [
+      { es: "UI/UX", en: "UI/UX" },
+      { es: "Next.js", en: "Next.js" },
+      { es: "Interacciones", en: "Interactions" },
+      { es: "SEO", en: "SEO" },
+      { es: "Responsive", en: "Responsive" },
+    ],
   },
   {
     id: "identidad",
@@ -263,7 +269,13 @@ export const serviceStack: StackService[] = [
       es: "Tu marca es más que el logo: es cómo te reconocen y te recuerdan. Definimos logo, colores y tipografía para que todo hable el mismo idioma.",
       en: "Your brand is more than a logo: it is how people recognize and remember you. We set the logo, colors and type so everything speaks the same language.",
     },
-    pills: ["Logotipo", "Tipografía", "Paleta", "Tono de voz", "Manual"],
+    pills: [
+      { es: "Logotipo", en: "Logo" },
+      { es: "Tipografía", en: "Typography" },
+      { es: "Paleta", en: "Color palette" },
+      { es: "Tono de voz", en: "Voice and tone" },
+      { es: "Manual", en: "Guidelines" },
+    ],
   },
   {
     id: "tiendas",
@@ -273,7 +285,12 @@ export const serviceStack: StackService[] = [
       es: "Vender en línea es más que subir productos. Armamos tiendas donde comprar es simple, el pago da confianza y el inventario siempre está al día.",
       en: "Selling online is more than uploading products. We build stores where buying is simple, paying feels safe and stock stays current.",
     },
-    pills: ["Shopify", "Catálogo", "Checkout", "CRO"],
+    pills: [
+      { es: "Shopify", en: "Shopify" },
+      { es: "Catálogo", en: "Catalog" },
+      { es: "Checkout", en: "Checkout" },
+      { es: "CRO", en: "CRO" },
+    ],
   },
   {
     id: "desarrollo",
@@ -283,7 +300,12 @@ export const serviceStack: StackService[] = [
       es: "¿Necesitas más que una plantilla? Programamos lo que tu negocio pide: conexión con el sistema que ya usas, portales y herramientas internas.",
       en: "Need more than a template? We build what your business asks for: a link to the system you already run, portals and internal tools.",
     },
-    pills: ["Integraciones", "Aplicaciones", "CMS", "Automatización"],
+    pills: [
+      { es: "Integraciones", en: "Integrations" },
+      { es: "Aplicaciones", en: "Apps" },
+      { es: "CMS", en: "CMS" },
+      { es: "Automatización", en: "Automation" },
+    ],
   },
 ];
 

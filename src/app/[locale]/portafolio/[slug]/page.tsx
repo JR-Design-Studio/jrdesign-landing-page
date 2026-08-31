@@ -114,7 +114,7 @@ export default async function CasePage({ params }: { params: Params }) {
     url: `${site.url}/${l}/portafolio/${project.slug}`,
     creator: { "@type": "Organization", name: site.name, url: site.url },
     about: project.sector[l],
-    keywords: project.stack.join(", "),
+    keywords: project.stack.map((tag) => tag[l]).join(", "),
   };
 
   const meta = [

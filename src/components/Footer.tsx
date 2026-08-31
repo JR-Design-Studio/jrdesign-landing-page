@@ -18,7 +18,7 @@ const copy = {
 /** Cierre del chasis: marca a la izquierda, índices a la derecha, firma abajo. */
 export function Footer({ locale }: { locale: Locale }) {
   const social = [
-    ["whatsapp", site.whatsappHref, "WhatsApp"],
+    ["whatsapp", site.whatsappFor(locale), "WhatsApp"],
     ["instagram", site.social.instagram, "Instagram"],
     ["facebook", site.social.facebook, "Facebook"],
     ["tiktok", site.social.tiktok, "TikTok"],
@@ -76,7 +76,7 @@ export function Footer({ locale }: { locale: Locale }) {
               {site.email}
             </a>
             <a
-              href={site.whatsappHref}
+              href={site.whatsappFor(locale)}
               target="_blank"
               rel="noopener noreferrer"
               className="num text-[1.0625rem] text-paper/85 transition-colors hover:text-white"

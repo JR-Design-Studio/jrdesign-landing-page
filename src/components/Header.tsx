@@ -159,7 +159,7 @@ export function Header({ locale }: { locale: Locale }) {
 
         <nav
           ref={navRef}
-          aria-label="Principal"
+          aria-label={locale === "es" ? "Principal" : "Main"}
           onPointerLeave={() => setPill(null)}
           onBlur={(event) => {
             if (!navRef.current?.contains(event.relatedTarget as Node)) setPill(null);

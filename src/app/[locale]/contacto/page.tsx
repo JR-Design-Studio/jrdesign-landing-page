@@ -58,7 +58,7 @@ export default async function ContactPage({ params }: { params: Params }) {
   const l = locale as Locale;
 
   const social = [
-    ["whatsapp", site.whatsappHref, "WhatsApp"],
+    ["whatsapp", site.whatsappFor(l), "WhatsApp"],
     ["instagram", site.social.instagram, "Instagram"],
     ["facebook", site.social.facebook, "Facebook"],
     ["tiktok", site.social.tiktok, "TikTok"],
@@ -108,7 +108,7 @@ export default async function ContactPage({ params }: { params: Params }) {
                   {site.email}
                 </a>
                 <a
-                  href={site.whatsappHref}
+                  href={site.whatsappFor(l)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="num mt-2 block text-[1.0625rem] text-ink transition-colors hover:text-red"

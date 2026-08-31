@@ -19,6 +19,14 @@ export const site = {
   whatsappHref:
     "https://wa.me/523326541643?text=" +
     encodeURIComponent("Hola, vi su sitio y quiero platicar de un proyecto."),
+  /** El mismo número, con el mensaje precargado en el idioma que se navega. */
+  whatsappFor: (locale: Locale) =>
+    "https://wa.me/523326541643?text=" +
+    encodeURIComponent(
+      locale === "en"
+        ? "Hi, I saw your site and I'd like to talk about a project."
+        : "Hola, vi su sitio y quiero platicar de un proyecto.",
+    ),
   email: "hola@jrdesign.com.mx",
   city: { es: "Guadalajara, México", en: "Guadalajara, Mexico" } as Localized,
   since: 2018,

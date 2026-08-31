@@ -13,7 +13,7 @@ export type Project = {
   featured: boolean;
   sector: Localized;
   scope: Localized;
-  stack: string[];
+  stack: Localized[];
   /** Una línea. Lo que el negocio ganó, no lo que se entregó. */
   lede: Localized;
   /** Resumen para el índice y los metadatos. */
@@ -56,7 +56,12 @@ export const projects: Project[] = [
       es: "Sitio web, integración con Odoo, cotizador conectado al CRM, CMS",
       en: "Website, Odoo integration, quote builder wired to the CRM, CMS",
     },
-    stack: ["Next.js", "TypeScript", "Odoo", "Python"],
+    stack: [
+      { es: "Next.js", en: "Next.js" },
+      { es: "TypeScript", en: "TypeScript" },
+      { es: "Odoo", en: "Odoo" },
+      { es: "Python", en: "Python" },
+    ],
     liveUrl: "https://disolab.com/",
     lede: {
       es: "Cotizar en cinco minutos, no en cinco días: el sitio habla directo con su ERP.",
@@ -142,7 +147,10 @@ export const projects: Project[] = [
       es: "Plataforma de e-learning, arquitectura de información, diseño de producto",
       en: "E-learning platform, information architecture, product design",
     },
-    stack: ["Plataforma de cursos", "Diseño de producto"],
+    stack: [
+      { es: "Plataforma de cursos", en: "Course platform" },
+      { es: "Diseño de producto", en: "Product design" },
+    ],
     liveUrl: "https://arqademy.com.mx/",
     lede: {
       es: "Muchos cursos, muchas disciplinas, una sola forma clara de encontrar el siguiente.",
@@ -191,7 +199,10 @@ export const projects: Project[] = [
       es: "Identidad digital y tienda en línea",
       en: "Digital identity and online store",
     },
-    stack: ["E-commerce", "Diseño de marca digital"],
+    stack: [
+      { es: "E-commerce", en: "E-commerce" },
+      { es: "Diseño de marca digital", en: "Digital brand design" },
+    ],
     liveUrl: "https://lilitucandles.com/",
     lede: {
       es: "Una marca de fragancias donde comprar no se siente como salir de la marca.",
@@ -240,7 +251,10 @@ export const projects: Project[] = [
       es: "Sitio web, arquitectura de proyectos y servicios",
       en: "Website, project and service architecture",
     },
-    stack: ["Sitio web", "Portafolio visual"],
+    stack: [
+      { es: "Sitio web", en: "Website" },
+      { es: "Portafolio visual", en: "Visual portfolio" },
+    ],
     liveUrl: "https://s-acm.com/",
     lede: {
       es: "Muchos proyectos, tres líneas de servicio y una sola experiencia limpia. Cliente en Los Ángeles.",
@@ -286,7 +300,10 @@ export const projects: Project[] = [
     featured: false,
     sector: { es: "Diseño de interiores", en: "Interior design" },
     scope: { es: "Sitio web y portafolio", en: "Website and portfolio" },
-    stack: ["Sitio web", "Portafolio visual"],
+    stack: [
+      { es: "Sitio web", en: "Website" },
+      { es: "Portafolio visual", en: "Visual portfolio" },
+    ],
     liveUrl: "https://www.meaningfulinteriors.com/",
     lede: {
       es: "Un estudio de interiores donde el proyecto ocupa la pantalla y la interfaz se hace a un lado.",
@@ -335,7 +352,10 @@ export const projects: Project[] = [
       es: "Sitio web, arquitectura de servicios, captación",
       en: "Website, service architecture, lead capture",
     },
-    stack: ["Sitio web", "Formularios de contacto"],
+    stack: [
+      { es: "Sitio web", en: "Website" },
+      { es: "Formularios de contacto", en: "Contact forms" },
+    ],
     liveUrl: "https://legallaboral.net/",
     lede: {
       es: "Materia laboral explicada sin tecnicismos, para que quien tiene un problema sepa qué sigue.",
@@ -384,7 +404,10 @@ export const projects: Project[] = [
       es: "Sitio web y arquitectura de oferta",
       en: "Website and offering architecture",
     },
-    stack: ["Sitio web", "Arquitectura de información"],
+    stack: [
+      { es: "Sitio web", en: "Website" },
+      { es: "Arquitectura de información", en: "Information architecture" },
+    ],
     liveUrl: "https://edunnova.com.mx/",
     lede: {
       es: "Cuatro públicos distintos, una sola oferta ordenada por lo que cada uno necesita.",
@@ -433,7 +456,10 @@ export const projects: Project[] = [
       es: "Marca digital y tienda en línea",
       en: "Digital brand and online store",
     },
-    stack: ["E-commerce", "Sitio web"],
+    stack: [
+      { es: "E-commerce", en: "E-commerce" },
+      { es: "Sitio web", en: "Website" },
+    ],
     liveUrl: "https://cmnaturals.com.mx/",
     lede: {
       es: "Un catálogo de productos naturales convertido en una compra que se entiende sola.",
@@ -482,7 +508,10 @@ export const projects: Project[] = [
       es: "Sitio web, catálogo y comunicación de procesos",
       en: "Website, catalog and process communication",
     },
-    stack: ["Sitio web", "Catálogo"],
+    stack: [
+      { es: "Sitio web", en: "Website" },
+      { es: "Catálogo", en: "Catalog" },
+    ],
     liveUrl: "https://www.tarimasyembalajeslozag.com/",
     lede: {
       es: "Dejamos de listar el catálogo y empezamos por la solución que el visitante busca.",
