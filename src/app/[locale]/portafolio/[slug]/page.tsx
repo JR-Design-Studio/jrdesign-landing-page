@@ -1,29 +1,18 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BrowserMock } from "@/components/DeviceMock";
-import { ProcessRail } from "@/components/ProcessRail";
-import { ProjectScreen } from "@/components/ProjectScreen";
-import { Readout } from "@/components/Readout";
-import { SyncDiagram } from "@/components/SyncDiagram";
 import { testimonialFor } from "@/lib/content";
-import { getProject, nextProject, projects } from "@/lib/projects";
+import { SHOTS } from "@/lib/shots";
+import { SiteLink } from "@/components/SiteLink";
+import { CaseShot } from "@/components/CaseShot";
+import {
+  DeviceMockup,
+  ScaledMockup,
+  naturalSize,
+} from "@/components/mockups/DeviceMockup";
+import { getProject, projects } from "@/lib/projects";
 import { isLocale, locales, site, ui, type Locale } from "@/lib/i18n";
 
 type Params = Promise<{ locale: string; slug: string }>;
-
-/** Dominio mostrado en el chasis del navegador de cada caso. */
-const domains: Record<string, string> = {
-  disolab: "disolab.com.mx/catalogo",
-  arqademy: "arqademy.com/cursos",
-  lilitu: "lilitu.mx/fragancias",
-  "s-ac-design-build": "sacdesignbuild.com/build",
-  "meaningful-interiors": "meaningfulinteriors.com/proyectos",
-  "legal-laboral-abogados": "legallaboral.mx/areas",
-  edunnova: "edunnova.com/empresas",
-  "cm-naturals": "cmnaturals.mx/productos",
-  lozag: "lozag.com.mx/soluciones",
-};
 
 export function generateStaticParams() {
   return locales.flatMap((locale) =>
@@ -66,6 +55,45 @@ export async function generateMetadata({
   };
 }
 
+/** El marco de laptop en dos tallas: la chica evita que se desborde en móvil. */
+function LaptopShot({
+  src,
+  alt,
+  priority,
+}: {
+  src: string;
+  alt: string;
+  priority?: boolean;
+}) {
+  const sizes = [
+    { className: "flex sm:hidden", width: 300, height: 200 },
+    { className: "hidden sm:flex lg:hidden", width: 500, height: 330 },
+    { className: "hidden lg:flex", width: 600, height: 400 },
+  ];
+
+  return (
+    <>
+      {sizes.map((slot) => (
+        <ScaledMockup
+          key={slot.className}
+          width={slot.width}
+          height={slot.height}
+          natural={naturalSize("laptop")}
+          className={slot.className}
+        >
+          <DeviceMockup
+            device="laptop"
+            src={src}
+            alt={alt}
+            sizes="900px"
+            priority={priority}
+          />
+        </ScaledMockup>
+      ))}
+    </>
+  );
+}
+
 export default async function CasePage({ params }: { params: Params }) {
   const { locale, slug } = await params;
   if (!isLocale(locale)) notFound();
@@ -74,8 +102,6 @@ export default async function CasePage({ params }: { params: Params }) {
   if (!project) notFound();
 
   const testimonial = testimonialFor(project.slug);
-  const next = nextProject(project.slug);
-  const index = projects.findIndex((p) => p.slug === project.slug) + 1;
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -92,11 +118,13 @@ export default async function CasePage({ params }: { params: Params }) {
   };
 
   const meta = [
-    { label: ui.year[l], value: String(project.year) },
     { label: ui.sector[l], value: project.sector[l] },
     { label: ui.scope[l], value: project.scope[l] },
-    { label: ui.stack[l], value: project.stack.join(" · ") },
   ];
+
+  const shot = SHOTS[project.slug];
+  // Si el caso tiene capturas de escritorio, la portada va en la laptop.
+  const hero = project.shots[0];
 
   return (
     <article>
@@ -105,120 +133,117 @@ export default async function CasePage({ params }: { params: Params }) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      {/* Carátula del caso */}
-      <header className="border-b border-ink/18">
-        <div className="mx-auto grid max-w-[86rem] gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16">
-          <div>
-            <div className="flex items-center gap-4">
-              <Link
-                href={`/${l}/portafolio`}
-                className="plate text-muted underline decoration-ink/25 transition-colors hover:text-ink hover:decoration-red"
+      <header className="-mt-[5.25rem] rounded-b-[28px] bg-ink pb-14 pt-[calc(5.25rem+3rem)] text-paper sm:pb-20 sm:pt-[calc(5.25rem+4rem)]">
+        <div className="mx-auto grid max-w-[86rem] gap-12 px-5 sm:px-8 lg:grid-cols-[1.2fr_1fr] lg:gap-16">
+        <div>
+          <h1 className="font-wide text-[clamp(1.9rem,4vw,3.6rem)] font-light leading-[1.05] tracking-tight text-white">
+            {project.name}
+          </h1>
+          <p className="mt-5 max-w-[46ch] text-lg leading-relaxed text-paper/75 sm:text-xl">
+            {project.lede[l]}
+          </p>
+
+          <dl className="mt-10 grid gap-6 sm:grid-cols-2">
+            {meta.map((m) => (
+              <div key={m.label}>
+                <dt className="text-base text-paper/60">{m.label}</dt>
+                <dd className="mt-1 text-[1.0625rem] text-white">{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+
+          {project.liveUrl && (
+            <SiteLink
+              href={project.liveUrl}
+              className="mt-8 inline-flex items-center gap-2 rounded-lg border border-red-deep bg-red px-6 py-3 text-[1.1875rem] font-light leading-none text-white transition-[background-color] duration-300 hover:bg-[color-mix(in_srgb,var(--color-red)_88%,#fff)]"
+            >
+              {project.liveUrl.replace(/^https?:\/\/(www\.)?/, "").replace(/\/$/, "")}
+            </SiteLink>
+          )}
+        </div>
+
+        <div className="flex items-center justify-center">
+          {hero ? (
+            <LaptopShot src={hero.src} alt={project.name} priority />
+          ) : (
+            shot && (
+              <ScaledMockup
+                width={300}
+                height={380}
+                natural={naturalSize("phone")}
               >
-                {l === "es" ? "Portafolio" : "Work"}
-              </Link>
-              <span className="flex items-baseline gap-1 text-[0.7rem]">
-                <Readout value={index} cells={2} live />
-                <span className="text-muted">/</span>
-                <Readout value={projects.length} cells={2} className="text-muted" />
-              </span>
-            </div>
-
-            <h1 className="font-wide mt-6 text-display font-bold">
-              {project.name}
-            </h1>
-            <p className="measure mt-6 text-lg leading-relaxed text-ink-soft sm:text-xl">
-              {project.lede[l]}
-            </p>
-
-            <dl className="mt-10 grid gap-5 border-t border-ink/18 pt-6 sm:grid-cols-2">
-              {meta.map((m) => (
-                <div key={m.label}>
-                  <dt className="plate text-muted">{m.label}</dt>
-                  <dd className="mt-1 text-sm">{m.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <BrowserMock url={domains[project.slug] ?? site.url} locale={l}>
-            <ProjectScreen slug={project.slug} locale={l} />
-          </BrowserMock>
+                <DeviceMockup
+                  device="phone"
+                  src={shot.src}
+                  alt={project.name}
+                  sizes="420px"
+                  priority
+                />
+              </ScaledMockup>
+            )
+                    )}
+        </div>
         </div>
       </header>
 
-      {/* Proceso 01–05: secuencia real */}
-      <div className="mx-auto max-w-[86rem] px-5 py-14 sm:px-8 sm:py-20">
-        <ProcessRail steps={project.steps} locale={l} />
+      <div className="mx-auto max-w-[86rem] px-5 pb-14 sm:px-8 sm:pb-20">
+      {/* El caso, contado por partes, con la evidencia intercalada */}
+      <div className="mt-20 flex flex-col gap-16 sm:mt-24 sm:gap-20">
+        {project.steps.map((step, i) => {
+          // Cada captura acompaña al paso que explica lo que se ve.
+          const evidence = project.shots[i];
+          return (
+            <section key={step.key}>
+              <div>
+                <div>
+                  <h2 className="font-wide max-w-[22ch] text-[clamp(1.5rem,2.8vw,2.2rem)] font-light leading-[1.1] tracking-tight text-ink">
+                    {step.title[l]}
+                  </h2>
+                  <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-ink-soft">
+                    {step.body[l]}
+                  </p>
+                </div>
+              </div>
+
+              {evidence && i > 0 && (
+                <figure className="mt-10">
+                  <CaseShot
+                    shots={project.shots}
+                    index={i}
+                    alt={project.name}
+                  />
+                  {evidence.caption && (
+                    <figcaption className="mt-3 text-base text-muted">
+                      {evidence.caption[l]}
+                    </figcaption>
+                  )}
+                </figure>
+              )}
+            </section>
+          );
+        })}
       </div>
 
-      {/* El mecanismo de Disolab se dibuja donde vive */}
-      {project.slug === "disolab" && (
-        <section className="border-y border-ink/18 bg-white py-14 sm:py-20">
-          <div className="mx-auto max-w-[86rem] px-5 sm:px-8">
-            <div className="panel-flush bg-paper p-5 sm:p-8">
-              <SyncDiagram locale={l} />
-            </div>
-          </div>
-        </section>
-      )}
-
       {/* Resultado */}
-      <section className="bg-ink py-14 text-paper sm:py-20">
-        <div className="mx-auto grid max-w-[86rem] gap-6 px-5 sm:px-8 md:grid-cols-[10rem_1fr] md:gap-16">
-          <p className="plate text-paper/75">{ui.result[l]}</p>
-          <p className="font-wide max-w-3xl text-title font-semibold text-white">
-            {project.result[l]}
-          </p>
-        </div>
+      <section className="mt-20 rounded-2xl bg-ink px-6 py-10 text-paper sm:px-12 sm:py-14">
+        <h2 className="text-base text-paper/60">{ui.result[l]}</h2>
+        <p className="font-wide mt-4 max-w-[46ch] text-[clamp(1.4rem,2.6vw,2.2rem)] font-light leading-[1.15] text-white">
+          {project.result[l]}
+        </p>
       </section>
 
       {/* El cliente del propio caso */}
       {testimonial && (
-        <section className="mx-auto max-w-[86rem] px-5 py-14 sm:px-8 sm:py-20">
-          <blockquote className="grid gap-6 md:grid-cols-[10rem_1fr] md:gap-16">
-            <span className="plate text-muted">
-              {l === "es" ? "El cliente" : "The client"}
-            </span>
-            <div className="max-w-3xl">
-              <p className="text-xl leading-relaxed sm:text-2xl">
-                {testimonial.quote[l]}
-              </p>
-              <footer className="mt-5 flex flex-wrap items-baseline gap-x-3">
-                <span className="text-sm font-semibold">{testimonial.name}</span>
-                <span className="plate text-muted">
-                  {testimonial.role[l]} · {testimonial.company}
-                </span>
-              </footer>
-            </div>
-          </blockquote>
-        </section>
+        <blockquote className="mt-16 max-w-[60ch]">
+          <p className="text-xl leading-relaxed text-ink sm:text-2xl">
+            &ldquo;{testimonial.quote[l]}&rdquo;
+          </p>
+          <footer className="mt-5 text-base text-muted">
+            {testimonial.name} · {testimonial.role[l]} · {testimonial.company}
+          </footer>
+        </blockquote>
       )}
-
-      {/* Siguiente cajón */}
-      <nav
-        aria-label={ui.next[l]}
-        className="mx-auto max-w-[86rem] border-t border-ink/18 px-5 sm:px-8"
-      >
-        <Link
-          href={`/${l}/portafolio/${next.slug}`}
-          className="group flex flex-col gap-2 py-10 sm:flex-row sm:items-baseline sm:justify-between sm:py-14"
-        >
-          <span className="plate text-muted">{ui.next[l]}</span>
-          <span className="font-wide flex items-center gap-4 text-title font-semibold">
-            {next.name}
-            <svg
-              width="26"
-              height="10"
-              viewBox="0 0 26 10"
-              fill="none"
-              aria-hidden
-              className="transition-transform duration-300 group-hover:translate-x-2"
-            >
-              <path d="M0 5h24M20 1l4 4-4 4" stroke="#C1282D" strokeWidth="1.4" />
-            </svg>
-          </span>
-        </Link>
-      </nav>
+      </div>
     </article>
   );
 }

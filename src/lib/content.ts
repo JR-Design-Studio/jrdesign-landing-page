@@ -212,40 +212,227 @@ export const howWeWork: ProcessPhase[] = [
     n: "01",
     title: { es: "Entender el negocio", en: "Understand the business" },
     body: {
-      es: "Antes de diseñar preguntamos cómo vendes, quién te compra y qué te preguntan siempre. De ahí sale la estructura del sitio.",
-      en: "Before designing we ask how you sell, who buys and what people always ask you. The site structure comes from that.",
+      es: "Analizamos qué necesita resolver tu negocio y qué secciones lo consiguen. De ahí sale la propuesta: alcance, tiempos y precio cerrados desde el inicio.",
+      en: "We analyze what your business needs to solve and which sections get it done. That becomes the proposal: scope, timeline and price closed from the start.",
     },
   },
   {
     n: "02",
-    title: { es: "Ordenar la información", en: "Order the information" },
+    title: { es: "Diseñar y construir", en: "Design and build" },
     body: {
-      es: "Definimos qué va en cada página y en qué orden. Es la parte que menos se ve y la que más decide si el sitio funciona.",
-      en: "We define what goes on each page and in what order. It is the least visible part and the one that decides whether the site works.",
+      es: "Diseñamos la propuesta y la llevamos a código. En cada etapa hay una reunión de avance: revisas, comentas y aprobamos antes de seguir.",
+      en: "We design the proposal and take it to code. Each stage has a progress review: you look at it, comment, and we sign off before moving on.",
     },
   },
   {
     n: "03",
-    title: { es: "Diseñar sobre contenido real", en: "Design on real content" },
+    title: { es: "Desplegar y acompañar", en: "Deploy and support" },
     body: {
-      es: "Diseñamos con tus textos y tus fotos, nunca con relleno. Lo que apruebas es lo que se publica.",
-      en: "We design with your copy and your photos, never with filler. What you approve is what ships.",
+      es: "Publicamos el sitio medido y documentado, y entregamos a tu equipo el control del contenido. Después del lanzamiento seguimos disponibles para ajustes y mejoras.",
+      en: "We ship the site measured and documented, and hand your team control of the content. After launch we stay available for adjustments and improvements.",
     },
   },
+];
+
+export type StackService = {
+  id: string;
+  /** El título se parte en dos: la segunda mitad baja de tono. */
+  title: Localized;
+  titleTail: Localized;
+  body: Localized;
+  pills: string[];
+};
+
+/** Los cuatro frentes del estudio, en el orden en que se contratan. */
+export const serviceStack: StackService[] = [
   {
-    n: "04",
-    title: { es: "Construir y conectar", en: "Build and connect" },
+    id: "diseno-web",
+    title: { es: "Diseño", en: "Web" },
+    titleTail: { es: "web", en: "Design" },
     body: {
-      es: "Desarrollo a mano, CMS y las integraciones que hagan falta con lo que ya usas.",
-      en: "Hand-built development, a CMS, and whatever integrations are needed with the systems you already run.",
+      es: "Todo sitio empieza con un objetivo: que la visita se convierta en cliente. Diseñamos páginas fáciles de recorrer, que se ven bien y llevan a la acción.",
+      en: "Every site starts with one goal: turning a visit into a client. We design pages that are easy to move through, look sharp and lead to action.",
     },
+    pills: ["UI/UX", "Next.js", "Interacciones", "SEO", "Responsive"],
   },
   {
-    n: "05",
-    title: { es: "Entregar y acompañar", en: "Hand off and support" },
+    id: "identidad",
+    title: { es: "Identidad", en: "Brand" },
+    titleTail: { es: "de marca", en: "Identity" },
     body: {
-      es: "Publicación, medición, capacitación y soporte los primeros meses. No desaparecemos al lanzar.",
-      en: "Launch, analytics, training and support for the first months. We do not disappear at go-live.",
+      es: "Tu marca es más que el logo: es cómo te reconocen y te recuerdan. Definimos logo, colores y tipografía para que todo hable el mismo idioma.",
+      en: "Your brand is more than a logo: it is how people recognize and remember you. We set the logo, colors and type so everything speaks the same language.",
     },
+    pills: ["Logotipo", "Tipografía", "Paleta", "Tono de voz", "Manual"],
+  },
+  {
+    id: "tiendas",
+    title: { es: "Tiendas", en: "Ecommerce" },
+    titleTail: { es: "en línea", en: "Stores" },
+    body: {
+      es: "Vender en línea es más que subir productos. Armamos tiendas donde comprar es simple, el pago da confianza y el inventario siempre está al día.",
+      en: "Selling online is more than uploading products. We build stores where buying is simple, paying feels safe and stock stays current.",
+    },
+    pills: ["Shopify", "Catálogo", "Checkout", "CRO"],
+  },
+  {
+    id: "desarrollo",
+    title: { es: "Desarrollo", en: "Custom" },
+    titleTail: { es: "a la medida", en: "Development" },
+    body: {
+      es: "¿Necesitas más que una plantilla? Programamos lo que tu negocio pide: conexión con el sistema que ya usas, portales y herramientas internas.",
+      en: "Need more than a template? We build what your business asks for: a link to the system you already run, portals and internal tools.",
+    },
+    pills: ["Integraciones", "Aplicaciones", "CMS", "Automatización"],
+  },
+];
+
+export type ServicePlan = {
+  id: string;
+  title: Localized;
+  body: Localized;
+  faqs: { q: Localized; a: Localized }[];
+};
+
+/** Lo que se puede contratar, con las dudas que llegan antes de contratarlo. */
+export const servicePlans: ServicePlan[] = [
+  {
+    id: "sitio",
+    title: { es: "Sitio web", en: "Website" },
+    body: {
+      es: "Diseño y desarrollo de tu sitio a la medida, con la mejor experiencia de usuario y adaptable en todos los dispositivos.",
+      en: "Custom design and development of your site, with the best user experience and adapted to every device.",
+    },
+    faqs: [
+      {
+        q: { es: "¿Qué incluye?", en: "What is included?" },
+        a: {
+          es: "Diseño a la medida, desarrollo, CMS para que edites el contenido, medición conectada y publicación con tu dominio.",
+          en: "Custom design, development, a CMS so you can edit content, analytics wired up and launch on your own domain.",
+        },
+      },
+      {
+        q: { es: "¿Qué necesito para empezar?", en: "What do I need to start?" },
+        a: {
+          es: "Una reunión inicial y tus materiales de marca: logotipo, tipografía y colores, más la información de tus servicios o productos.",
+          en: "A first call and your brand materials: logo, type and colors, plus the information about your services or products.",
+        },
+      },
+      {
+        q: {
+          es: "¿Puedo editar mi sitio después del lanzamiento?",
+          en: "Can I edit my site after launch?",
+        },
+        a: {
+          es: "Sí. Entregamos el sitio con un CMS y una capacitación para tu equipo, sin que necesites conocimientos técnicos.",
+          en: "Yes. We hand it over with a CMS and a walkthrough for your team, no technical background needed.",
+        },
+      },
+    ],
+  },
+  {
+    id: "landing",
+    title: { es: "Landing page", en: "Landing page" },
+    body: {
+      es: "Una página enfocada en un solo producto o servicio, ideal para campañas: capta clientes potenciales y aumenta el tráfico útil.",
+      en: "A page focused on a single product or service, made for campaigns: it captures leads and turns traffic into contacts.",
+    },
+    faqs: [
+      {
+        q: { es: "¿Qué incluye?", en: "What is included?" },
+        a: {
+          es: "Una página con estructura pensada para convertir, formulario o WhatsApp conectados y medición lista para tus campañas.",
+          en: "One page structured to convert, a form or WhatsApp wired up, and analytics ready for your campaigns.",
+        },
+      },
+      {
+        q: { es: "¿Cuánto tarda?", en: "How long does it take?" },
+        a: {
+          es: "Entre una y tres semanas, según qué tan definido esté el mensaje y qué tan rápido llegue el material.",
+          en: "One to three weeks, depending on how defined the message is and how fast the material arrives.",
+        },
+      },
+      {
+        q: {
+          es: "¿Sirve si ya tengo un sitio?",
+          en: "Does it work if I already have a site?",
+        },
+        a: {
+          es: "Sí. Vive en tu mismo dominio y se diseña con la identidad del sitio, pero con un solo objetivo por página.",
+          en: "Yes. It lives on your own domain and follows the site's identity, but with a single goal per page.",
+        },
+      },
+    ],
+  },
+  {
+    id: "ecommerce",
+    title: { es: "E-commerce", en: "E-commerce" },
+    body: {
+      es: "Empieza a vender en línea con una tienda hecha a la medida: catálogo bien mostrado, pagos y envíos listos e inventario al día.",
+      en: "Start selling online with a store built for you: a catalog shown well, payments and shipping ready, and stock kept current.",
+    },
+    faqs: [
+      {
+        q: { es: "¿Qué incluye?", en: "What is included?" },
+        a: {
+          es: "Catálogo, fichas de producto, carrito y checkout, configuración de pagos y envíos, y la capacitación para administrarlo.",
+          en: "Catalog, product pages, cart and checkout, payment and shipping setup, plus training to run it.",
+        },
+      },
+      {
+        q: {
+          es: "¿Puedo administrar productos y pedidos?",
+          en: "Can I manage products and orders?",
+        },
+        a: {
+          es: "Sí. Entregamos un panel donde actualizas productos, precios e inventario y sigues los pedidos sin depender de nosotros.",
+          en: "Yes. You get a dashboard to update products, prices and stock, and to follow orders without depending on us.",
+        },
+      },
+      {
+        q: {
+          es: "¿Se conecta con el sistema que ya uso?",
+          en: "Does it connect to the system I already use?",
+        },
+        a: {
+          es: "Sí. Conectamos la tienda con tu ERP o sistema actual para que el catálogo y el inventario se capturen una sola vez.",
+          en: "Yes. We connect the store to your ERP or current system so catalog and stock are entered only once.",
+        },
+      },
+    ],
+  },
+  {
+    id: "desarrollo",
+    title: { es: "Desarrollo a la medida", en: "Custom development" },
+    body: {
+      es: "Cuando la plantilla se queda corta: integraciones con el sistema que ya operas, portales y herramientas internas.",
+      en: "When the template falls short: integrations with the system you already run, portals and internal tools.",
+    },
+    faqs: [
+      {
+        q: { es: "¿Qué se puede integrar?", en: "What can be integrated?" },
+        a: {
+          es: "ERP como Odoo, hojas de cálculo, CRM, pasarelas de pago y cualquier servicio que ofrezca una API.",
+          en: "ERPs such as Odoo, spreadsheets, CRMs, payment gateways and any service that offers an API.",
+        },
+      },
+      {
+        q: { es: "¿Cómo se cotiza?", en: "How is it quoted?" },
+        a: {
+          es: "Primero revisamos el sistema y el flujo de trabajo; de ahí sale una propuesta con alcance, tiempos y precio cerrado.",
+          en: "We first review the system and the workflow; from there comes a proposal with scope, timeline and a fixed price.",
+        },
+      },
+      {
+        q: {
+          es: "¿Dan soporte después?",
+          en: "Do you support it afterwards?",
+        },
+        a: {
+          es: "Sí. Seguimos disponibles para ajustes, mejoras y mantenimiento una vez que está en operación.",
+          en: "Yes. We stay available for adjustments, improvements and maintenance once it is running.",
+        },
+      },
+    ],
   },
 ];

@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
-import { BrowserMock } from "@/components/DeviceMock";
-import { ProjectScreen } from "@/components/ProjectScreen";
-import { Readout } from "@/components/Readout";
-import { faqs, services } from "@/lib/content";
-import { projects } from "@/lib/projects";
-import { isLocale, locales, site, ui, type Locale } from "@/lib/i18n";
+import { ArrowLink } from "@/components/ArrowLink";
+import { faqs, servicePlans } from "@/lib/content";
+import { isLocale, locales, type Locale } from "@/lib/i18n";
 
 type Params = Promise<{ locale: string }>;
 
@@ -15,34 +11,12 @@ export function generateStaticParams() {
 }
 
 const copy = {
-  title: {
-    es: "Tres formas de trabajar juntos",
-    en: "Three ways to work together",
-  },
+  title: { es: "Conoce nuestros servicios", en: "Our services" },
   lede: {
-    es: "No vendemos paquetes cerrados. Estas son las tres formas en las que suele empezar un proyecto; cuál aplica se decide en la primera llamada.",
-    en: "We do not sell fixed packages. These are the three ways a project usually starts; which one applies gets decided on the first call.",
+    es: "Diseñamos, programamos y damos soporte con el mismo equipo, de principio a fin.",
+    en: "We design, build and support with the same team, from start to finish.",
   },
-  forWho: { es: "Para quién", en: "Who for" },
-  cases: { es: "Casos", en: "Cases" },
-  faq: { es: "Antes de escribirnos", en: "Before you write" },
-  ctaTitle: {
-    es: "¿Cuál de las tres se parece a lo tuyo?",
-    en: "Which one sounds like your case?",
-  },
-};
-
-/** Un caso real y su pantalla por cada forma de trabajo. */
-const evidence: Record<string, { slug: string; url: string }> = {
-  sitio: { slug: "legal-laboral-abogados", url: "legallaboral.mx/areas" },
-  ecommerce: { slug: "lilitu", url: "lilitu.mx/fragancias" },
-  integraciones: { slug: "disolab", url: "disolab.com.mx/catalogo" },
-};
-
-const related: Record<string, string[]> = {
-  sitio: ["meaningful-interiors", "s-ac-design-build", "legal-laboral-abogados"],
-  ecommerce: ["lilitu", "cm-naturals"],
-  integraciones: ["disolab", "arqademy"],
+  quote: { es: "Solicitar una cotización", en: "Request a quote" },
 };
 
 export async function generateMetadata({
@@ -77,7 +51,10 @@ export default async function ServicesPage({ params }: { params: Params }) {
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
+    mainEntity: [
+      ...servicePlans.flatMap((plan) => plan.faqs),
+      ...faqs.map((f) => ({ q: f.q, a: f.a })),
+    ].map((f) => ({
       "@type": "Question",
       name: f.q[l],
       acceptedAnswer: { "@type": "Answer", text: f.a[l] },
@@ -90,121 +67,65 @@ export default async function ServicesPage({ params }: { params: Params }) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
+
       <header>
-        <h1 className="font-wide max-w-[16ch] text-title font-semibold">
+        <h1 className="font-wide max-w-[26ch] text-[clamp(1.9rem,4vw,3.6rem)] font-light leading-[1.05] tracking-tight text-ink">
           {copy.title[l]}
         </h1>
-        <p className="measure mt-5 text-base leading-relaxed text-ink-soft sm:text-lg">
+        <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-ink-soft sm:text-xl">
           {copy.lede[l]}
         </p>
+
       </header>
 
-      <div className="mt-14 space-y-16 sm:mt-20 sm:space-y-24">
-        {services.map((s, i) => {
-          const ev = evidence[s.id];
-          return (
-            <section key={s.id} id={s.id} className="scroll-mt-24">
-              <div className="grid gap-10 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-16">
-                <div>
-                  <Readout
-                    value={i + 1}
-                    cells={2}
-                    className="text-[0.7rem] text-muted"
-                  />
-                  <h2 className="font-wide mt-3 text-2xl font-semibold sm:text-3xl">
-                    {s.title[l]}
-                  </h2>
-                  <p className="measure mt-4 text-base leading-relaxed text-ink-soft sm:text-lg">
-                    {s.body[l]}
-                  </p>
+      <div className="mt-14 flex flex-col gap-8 sm:mt-20">
+        {servicePlans.map((plan) => (
+          <section
+            key={plan.id}
+            id={plan.id}
+            className="scroll-mt-28 rounded-[28px] bg-paper p-8 sm:p-12"
+          >
+            <div className="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+              <div>
+                <h2 className="font-wide text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.05] tracking-tight text-ink">
+                  {plan.title[l]}
+                </h2>
+                <p className="mt-4 max-w-[38ch] text-lg leading-relaxed text-ink-soft">
+                  {plan.body[l]}
+                </p>
 
-                  <ul className="mt-7 space-y-2.5 border-t border-ink/18 pt-6">
-                    {s.bullets.map((b) => (
-                      <li key={b.es} className="flex gap-3 text-sm leading-relaxed">
-                        <span
-                          aria-hidden
-                          className="mt-[0.45rem] size-1 shrink-0 bg-red"
-                        />
-                        {b[l]}
-                      </li>
-                    ))}
-                  </ul>
-
-                  <p className="mt-6 text-sm text-ink-soft">
-                    <span className="plate mr-2 text-muted">{copy.forWho[l]}</span>
-                    {s.forWho[l]}
-                  </p>
-
-                  <p className="mt-4 flex flex-wrap items-baseline gap-x-4 gap-y-1 text-sm">
-                    <span className="plate text-muted">{copy.cases[l]}</span>
-                    {related[s.id]?.map((slug) => {
-                      const p = projects.find((x) => x.slug === slug);
-                      if (!p) return null;
-                      return (
-                        <Link
-                          key={slug}
-                          href={`/${l}/portafolio/${slug}`}
-                          className="underline decoration-ink/25 transition-colors hover:decoration-red"
-                        >
-                          {p.name}
-                        </Link>
-                      );
-                    })}
-                  </p>
-                </div>
-
-                {ev && (
-                  <BrowserMock url={ev.url} locale={l}>
-                    <ProjectScreen slug={ev.slug} locale={l} />
-                  </BrowserMock>
-                )}
+                <ArrowLink
+                  href={`/${l}/contacto?servicio=${plan.id}`}
+                  size={18}
+                  className="mt-8 inline-flex items-center gap-1.5 rounded-lg border border-red-deep bg-red px-5 py-2.5 text-base font-light leading-none text-white transition-[background-color] duration-300 hover:bg-[color-mix(in_srgb,var(--color-red)_88%,#fff)]"
+                >
+                  {copy.quote[l]}
+                </ArrowLink>
               </div>
-            </section>
-          );
-        })}
+
+              <div className="flex flex-col gap-3">
+                {plan.faqs.map((faq) => (
+                  <details
+                    key={faq.q.es}
+                    className="group rounded-xl border border-ink/15 bg-white px-5 py-4"
+                  >
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[1.0625rem] text-ink marker:content-none [&::-webkit-details-marker]:hidden">
+                      {faq.q[l]}
+                      <span aria-hidden className="relative block size-3.5 shrink-0">
+                        <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-ink" />
+                        <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-ink transition-transform duration-300 group-open:scale-y-0" />
+                      </span>
+                    </summary>
+                    <p className="mt-3 text-base leading-relaxed text-ink-soft">
+                      {faq.a[l]}
+                    </p>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </section>
+        ))}
       </div>
-
-      <section className="mt-20">
-        <h2 className="font-wide text-title font-semibold">{copy.faq[l]}</h2>
-        <div className="mt-8 max-w-3xl border-t border-ink/18">
-          {faqs.map((f) => (
-            <details key={f.q.es} className="group border-b border-ink/18">
-              <summary className="flex cursor-pointer items-baseline justify-between gap-6 py-5 text-lg font-medium marker:content-none [&::-webkit-details-marker]:hidden">
-                {f.q[l]}
-                <span aria-hidden className="relative mt-2 block size-2.5 shrink-0">
-                  <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-red" />
-                  <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-red transition-transform duration-300 group-open:scale-y-0" />
-                </span>
-              </summary>
-              <p className="measure pb-6 text-base leading-relaxed text-ink-soft">
-                {f.a[l]}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <section className="mt-20 border-t border-ink/18 pt-12">
-        <h2 className="font-wide max-w-[20ch] text-title font-semibold">
-          {copy.ctaTitle[l]}
-        </h2>
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <a
-            href={site.whatsappHref}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="plate bg-red px-6 py-4 text-white transition-colors hover:bg-red-deep"
-          >
-            {ui.whatsapp[l]}
-          </a>
-          <Link
-            href={`/${l}/contacto`}
-            className="plate border border-ink/30 px-6 py-4 transition-colors hover:border-ink hover:bg-white"
-          >
-            {ui.cta[l]}
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }

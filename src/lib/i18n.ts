@@ -22,6 +22,11 @@ export const site = {
   email: "hola@jrdesign.com.mx",
   city: { es: "Guadalajara, México", en: "Guadalajara, Mexico" } as Localized,
   since: 2018,
+  social: {
+    instagram: "https://www.instagram.com/jr_design.mx/",
+    facebook: "https://www.facebook.com/people/JR-Design/100057438648602/",
+    tiktok: "https://www.tiktok.com/@juan_lizaola",
+  },
 };
 
 export const nav = [

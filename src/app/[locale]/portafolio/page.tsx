@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProjectDrawers } from "@/components/ProjectDrawers";
+import { ArrowLink } from "@/components/ArrowLink";
+import { ProjectCard } from "@/components/ProjectCard";
 import { projects } from "@/lib/projects";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
 
@@ -11,13 +12,17 @@ export function generateStaticParams() {
 }
 
 const copy = {
-  title: {
-    es: "Nueve proyectos, nueve decisiones",
-    en: "Nine projects, nine decisions",
-  },
+  title: { es: "Nuestro trabajo", en: "Our work" },
   lede: {
-    es: "Cada caso cuenta cómo se pensó, no solo cómo quedó: el contexto, lo que se investigó, el reto real y la decisión que cambió el resultado.",
-    en: "Each case explains how it was thought through, not just how it looks: the context, the research, the real challenge and the decision that changed the outcome.",
+    es: "Proyectos publicados, cada uno con la historia de cómo se resolvió.",
+    en: "Live projects, each with the story of how it was solved.",
+  },
+  ctaTitle: { es: "¿Y si el siguiente caso fuera el ", en: "What if the next case were " },
+  ctaTitleAccent: { es: "tuyo", en: "yours" },
+  ctaTitleTail: { es: "?", en: "?" },
+  ctaLede: {
+    es: "Cuéntanos qué necesita resolver tu negocio y te devolvemos una propuesta con alcance, tiempos y precio.",
+    en: "Tell us what your business needs to solve and we will come back with scope, timeline and price.",
   },
   meta: {
     es: "Casos de estudio de JR Design: e-learning, integración con Odoo, e-commerce de lujo, despachos legales e industria.",
@@ -54,17 +59,43 @@ export default async function PortfolioPage({ params }: { params: Params }) {
   return (
     <div className="mx-auto max-w-[86rem] px-5 py-14 sm:px-8 sm:py-20">
       <header>
-        <h1 className="font-wide max-w-[16ch] text-title font-semibold">
+        <h1 className="font-wide max-w-[26ch] text-[clamp(1.9rem,4vw,3.6rem)] font-light leading-[1.05] tracking-tight text-ink">
           {copy.title[l]}
         </h1>
-        <p className="measure mt-5 text-base leading-relaxed text-ink-soft sm:text-lg">
+        <p className="mt-5 max-w-[52ch] text-lg leading-relaxed text-ink-soft sm:text-xl">
           {copy.lede[l]}
         </p>
       </header>
 
-      <div className="mt-14 sm:mt-20">
-        <ProjectDrawers projects={projects} locale={l} />
+      <div className="mt-14 grid gap-8 sm:mt-20 sm:grid-cols-2 md:grid-cols-3">
+        {projects.map((project) => (
+          <ProjectCard
+            key={project.slug}
+            slug={project.slug}
+            locale={l}
+            className="w-full min-w-0"
+          />
+        ))}
       </div>
+
+      <section className="py-24 text-center">
+        <h2 className="font-wide mx-auto max-w-[20ch] text-[clamp(1.9rem,4vw,3.6rem)] font-light leading-[1.05] tracking-tight text-ink">
+          {copy.ctaTitle[l]}
+          <span className="text-red">{copy.ctaTitleAccent[l]}</span>
+          {copy.ctaTitleTail[l]}
+        </h2>
+        <p className="measure mx-auto mt-6 text-lg leading-relaxed text-ink-soft sm:text-xl">
+          {copy.ctaLede[l]}
+        </p>
+        <div className="mt-10 flex justify-center">
+          <ArrowLink
+            href={`/${l}/contacto`}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-red-deep bg-red px-6 py-3 text-[1.1875rem] font-light leading-none text-white transition-[background-color] duration-300 hover:bg-[color-mix(in_srgb,var(--color-red)_88%,#fff)]"
+          >
+            {l === "es" ? "Solicitar una cotización" : "Request a quote"}
+          </ArrowLink>
+        </div>
+      </section>
     </div>
   );
 }

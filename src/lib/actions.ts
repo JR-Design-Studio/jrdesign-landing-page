@@ -21,6 +21,12 @@ export async function submitContact(
   const s = (k: string) => String(formData.get(k) ?? "").trim();
 
   const name = s("name");
+  const lastName = s("lastName");
+  const phone = s("phone");
+  const services = formData
+    .getAll("services")
+    .map((v) => String(v))
+    .filter(Boolean);
   const email = s("email");
   const company = s("company");
   const kind = s("kind");
@@ -63,9 +69,11 @@ export async function submitContact(
   }
 
   const body = [
-    `Nombre: ${name}`,
+    `Nombre: ${name}${lastName ? ` ${lastName}` : ""}`,
     `Correo: ${email}`,
+    phone && `Teléfono: ${phone}`,
     company && `Empresa: ${company}`,
+    services.length && `Servicios: ${services.join(", ")}`,
     kind && `Tipo de proyecto: ${kind}`,
     `Idioma: ${locale}`,
     "",
@@ -89,7 +97,7 @@ export async function submitContact(
           from: process.env.CONTACT_FROM ?? "JR Design <web@jrdesign.com.mx>",
           to: [to],
           reply_to: email,
-          subject: `Nuevo contacto — ${name}${company ? ` (${company})` : ""}`,
+          subject: `Nuevo contacto — ${name}${lastName ? ` ${lastName}` : ""}${company ? ` (${company})` : ""}`,
           text: body,
         }),
       });

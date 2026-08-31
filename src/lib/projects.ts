@@ -22,7 +22,8 @@ export type Project = {
   result: Localized;
   /** Ruta bajo /public/projects/<slug>/. null mientras no exista el archivo. */
   cover: string | null;
-  shots: string[];
+  /** Capturas del caso, con su tamaño real y un pie que explica qué se ve. */
+  shots: { src: string; w: number; h: number; caption?: Localized }[];
   liveUrl?: string;
 };
 
@@ -48,50 +49,88 @@ export const projects: Project[] = [
   {
     slug: "disolab",
     name: "Disolab",
-    year: 2024,
+    year: 2026,
     featured: true,
-    sector: { es: "Industria y distribución", en: "Industrial distribution" },
+    sector: { es: "Laboratorio e industria", en: "Laboratory and industry" },
     scope: {
-      es: "Sitio web, catálogo sincronizado con Odoo, CMS",
-      en: "Website, catalog synced with Odoo, CMS",
+      es: "Sitio web, integración con Odoo, cotizador conectado al CRM, CMS",
+      en: "Website, Odoo integration, quote builder wired to the CRM, CMS",
     },
-    stack: ["Next.js", "Odoo ERP", "CMS integrado"],
+    stack: ["Next.js", "TypeScript", "Odoo", "Python"],
+    liveUrl: "https://disolab.com/",
     lede: {
-      es: "Su catálogo ya vivía en Odoo. Lo conectamos a la web para que nadie capture un producto dos veces.",
-      en: "Their catalog already lived in Odoo. We wired it to the website so nobody enters a product twice.",
+      es: "Cotizar en cinco minutos, no en cinco días: el sitio habla directo con su ERP.",
+      en: "Quoting in five minutes, not five days: the site talks straight to their ERP.",
     },
     summary: {
-      es: "Una empresa con operación consolidada en Odoo necesitaba presencia digital sin duplicar el trabajo de su equipo. El catálogo se muestra en la web directo desde el ERP.",
-      en: "A company already running on Odoo needed a web presence without doubling their team's workload. The catalog now renders on the site straight from the ERP.",
+      es: "Sitio para el laboratorio Disolab conectado a Odoo: catálogo sincronizado desde el ERP, cotizador que entra al CRM y cotizaciones generadas en minutos.",
+      en: "A site for the Disolab laboratory wired into Odoo: a catalog synced from the ERP, a quote builder that lands in the CRM and quotes generated in minutes.",
     },
     steps: steps({
       contexto: {
-        es: "Empresa con operación consolidada que ya usaba Odoo como sistema de gestión. Se buscaba una presencia digital que representara mejor a la empresa y aprovechara la información que ya tenían en su sistema.",
-        en: "An established company already running Odoo as its management system. They wanted a web presence that represented the business properly and made use of the data they already had.",
+        es: "Disolab ya operaba con Odoo como ERP: ahí vivían su catálogo, su inventario y su CRM. Ningún cliente externo podía llegar a esa información, así que cotizar era un proceso manual que dependía de que alguien contestara un correo.",
+        en: "Disolab already ran on Odoo as its ERP: catalog, stock and CRM all lived there. No outside customer could reach any of it, so quoting was a manual process that depended on someone answering an email.",
       },
       investigacion: {
-        es: "Analizamos cómo Disolab gestionaba sus productos dentro de Odoo, buscando conectar la presencia digital con procesos existentes para no duplicar información.",
-        en: "We looked at how Disolab managed products inside Odoo, aiming to connect the website to existing processes instead of duplicating data.",
+        es: "Revisamos cómo se administraban productos y servicios dentro de Odoo y cómo llegaban las solicitudes al equipo de ventas. De ahí salió la idea del puente: que la web leyera del ERP en lugar de mantener un catálogo aparte.",
+        en: "We reviewed how products and services were managed inside Odoo and how requests reached the sales team. That is where the bridge came from: the site reading from the ERP instead of keeping a separate catalog.",
       },
       reto: {
-        es: "Una web profesional y navegable que mostrara el catálogo sin obligar al equipo a mantener la misma información en dos plataformas distintas.",
-        en: "A professional, navigable site that showed the catalog without forcing the team to maintain the same information in two places.",
+        es: "Que el sitio hablara directamente con Odoo: productos traídos del ERP, solicitudes entrando como prospectos en el CRM y la cotización generada con un clic, ya precargada.",
+        en: "Getting the site to talk directly to Odoo: products pulled from the ERP, requests landing as leads in the CRM and the quote generated with one click, already filled in.",
       },
       diseno: {
-        es: "Se trabajó estructura, presentación de productos y navegación, más la integración con Odoo para que los productos existentes se mostraran directo en la web.",
-        en: "We worked through structure, product presentation and navigation, plus the Odoo integration that surfaces existing products directly on the site.",
+        es: "Diseñamos la búsqueda por categorías y subcategorías, la ficha de producto y el cotizador donde el cliente arma su lista. Lo complejo no fue el sitio, fue el puente: los productos se consultan en tiempo real contra Odoo, así que siempre están al día sin intervención manual.",
+        en: "We designed search across categories and subcategories, the product page and the quote builder where the customer assembles a list. The site was not the hard part, the bridge was: products are queried against Odoo in real time, so they are always current with no manual work.",
       },
       decisiones: {
-        es: "Aprovechar el ERP existente en lugar de construir un sistema independiente. Sincronización del catálogo desde Odoo, evitando trabajo duplicado.",
-        en: "Build on the ERP they already trusted instead of standing up a separate system. The catalog syncs from Odoo, so no duplicate work.",
+        es: "Aprovechar el ERP que ya operaban en lugar de levantar un sistema aparte, y automatizar el flujo completo: el cliente selecciona, se crea el prospecto en el CRM y la cotización sale lista. Además, un CMS para que el equipo edite inicio, nosotros, servicios y promociones sin tocar el código.",
+        en: "Build on the ERP they already ran instead of standing up a separate system, and automate the whole flow: the customer picks, a lead is created in the CRM and the quote comes out ready. Plus a CMS so the team edits home, about, services and promotions without touching code.",
       },
     }),
     result: {
-      es: "Un sitio conectado al ecosistema digital que ya usaban, más un CMS integrado para gestionar el contenido de la página.",
-      en: "A site connected to the digital ecosystem they were already using, plus an integrated CMS to manage page content.",
+      es: "De la solicitud en la web al documento listo en menos de cinco minutos, sin capturar nada dos veces. El catálogo se actualiza solo y el equipo administra el contenido por su cuenta.",
+      en: "From web request to finished document in under five minutes, with nothing entered twice. The catalog updates itself and the team manages the content on its own.",
     },
     cover: null,
-    shots: [],
+    shots: [
+      {
+        src: "/projects/cases/disolab/home.png",
+        w: 2754,
+        h: 1648,
+        caption: {
+          es: "La portada presenta el laboratorio y lleva directo al catálogo.",
+          en: "The home page introduces the lab and leads straight to the catalog.",
+        },
+      },
+      {
+        src: "/projects/cases/disolab/equipos.png",
+        w: 2560,
+        h: 1600,
+        caption: {
+          es: "El catálogo se recorre por categorías y subcategorías, leído en tiempo real desde Odoo.",
+          en: "The catalog is browsed by category and subcategory, read from Odoo in real time.",
+        },
+      },
+      {
+        src: "/projects/cases/disolab/producto.png",
+        w: 2560,
+        h: 1600,
+        caption: {
+          es: "Cada ficha trae la información del ERP y se agrega a la cotización desde ahí.",
+          en: "Each product page carries the ERP data and goes into the quote from there.",
+        },
+      },
+      {
+        src: "/projects/cases/disolab/home-2.png",
+        w: 4018,
+        h: 2698,
+        caption: {
+          es: "Los servicios de laboratorio se consultan y se cotizan en el mismo recorrido.",
+          en: "Lab services are browsed and quoted in the same flow.",
+        },
+      },
+    ],
   },
   {
     slug: "arqademy",
@@ -104,6 +143,7 @@ export const projects: Project[] = [
       en: "E-learning platform, information architecture, product design",
     },
     stack: ["Plataforma de cursos", "Diseño de producto"],
+    liveUrl: "https://arqademy.com.mx/",
     lede: {
       es: "Muchos cursos, muchas disciplinas, una sola forma clara de encontrar el siguiente.",
       en: "Many courses, many disciplines, one clear way to find the next one.",
@@ -152,6 +192,7 @@ export const projects: Project[] = [
       en: "Digital identity and online store",
     },
     stack: ["E-commerce", "Diseño de marca digital"],
+    liveUrl: "https://lilitucandles.com/",
     lede: {
       es: "Una marca de fragancias donde comprar no se siente como salir de la marca.",
       en: "A fragrance brand where checking out never feels like leaving the brand.",
@@ -200,6 +241,7 @@ export const projects: Project[] = [
       en: "Website, project and service architecture",
     },
     stack: ["Sitio web", "Portafolio visual"],
+    liveUrl: "https://s-acm.com/",
     lede: {
       es: "Muchos proyectos, tres líneas de servicio y una sola experiencia limpia. Cliente en Los Ángeles.",
       en: "Dozens of projects, three service lines, one clean experience. Based in Los Angeles.",
@@ -245,6 +287,7 @@ export const projects: Project[] = [
     sector: { es: "Diseño de interiores", en: "Interior design" },
     scope: { es: "Sitio web y portafolio", en: "Website and portfolio" },
     stack: ["Sitio web", "Portafolio visual"],
+    liveUrl: "https://www.meaningfulinteriors.com/",
     lede: {
       es: "Un estudio de interiores donde el proyecto ocupa la pantalla y la interfaz se hace a un lado.",
       en: "An interiors studio where the project fills the screen and the interface steps aside.",
@@ -293,6 +336,7 @@ export const projects: Project[] = [
       en: "Website, service architecture, lead capture",
     },
     stack: ["Sitio web", "Formularios de contacto"],
+    liveUrl: "https://legallaboral.net/",
     lede: {
       es: "Materia laboral explicada sin tecnicismos, para que quien tiene un problema sepa qué sigue.",
       en: "Labor law explained without jargon, so someone with a problem knows what to do next.",
@@ -341,6 +385,7 @@ export const projects: Project[] = [
       en: "Website and offering architecture",
     },
     stack: ["Sitio web", "Arquitectura de información"],
+    liveUrl: "https://edunnova.com.mx/",
     lede: {
       es: "Cuatro públicos distintos, una sola oferta ordenada por lo que cada uno necesita.",
       en: "Four different audiences, one offering organized around what each of them needs.",
@@ -389,6 +434,7 @@ export const projects: Project[] = [
       en: "Digital brand and online store",
     },
     stack: ["E-commerce", "Sitio web"],
+    liveUrl: "https://cmnaturals.com.mx/",
     lede: {
       es: "Un catálogo de productos naturales convertido en una compra que se entiende sola.",
       en: "A natural products catalog turned into a purchase that explains itself.",
@@ -437,6 +483,7 @@ export const projects: Project[] = [
       en: "Website, catalog and process communication",
     },
     stack: ["Sitio web", "Catálogo"],
+    liveUrl: "https://www.tarimasyembalajeslozag.com/",
     lede: {
       es: "Dejamos de listar el catálogo y empezamos por la solución que el visitante busca.",
       en: "We stopped leading with the catalog and started with the solution the visitor is looking for.",

@@ -104,7 +104,7 @@ export default async function LocaleLayout({
           {current === "en" ? "Skip to content" : "Ir al contenido"}
         </a>
         <Header locale={current} />
-        <main id="contenido" className="flex-1">
+        <main id="contenido" className="flex-1 pt-[5.25rem]">
           {children}
         </main>
         <Footer locale={current} />

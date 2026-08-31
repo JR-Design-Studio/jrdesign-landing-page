@@ -4,83 +4,48 @@
 
 ## The world
 
-**Sala de Instrumentos.** El sitio no expone proyectos: expone nueve sistemas en
-operación. Todo lo que se ve pertenece a una consola de control analógica —chasis de
-tinta, carátulas de papel, etiquetas serigrafiadas, lecturas por celdas— porque el
-mecanismo real del estudio es conectar la web al sistema que la empresa ya opera.
+**Opdate Structure (Bento Studio) con Paleta JR Design.** El sitio es una experiencia moderna, enérgica y estructurada. Toma la inspiración estructural de estudios de diseño modernos (bento grids, tipografía hero enorme y centrada, separaciones claras) pero respeta fielmente los colores originales de la "Sala de Instrumentos": un fondo de papel claro (`--color-paper`), tarjetas blancas (`--color-white`) con bordes de tinta (`--color-ink`), texto muy oscuro y un rojo intenso (`--color-red`) como acento y señal de acción.
 
-Lo que este mundo rechaza: la landing de estudio con tipografía enorme, rejilla de
-mockups y un acento; y su opuesto previsible, el dashboard oscuro con neón. Aquí la
-consola está **iluminada**: carátulas claras sobre chasis oscuro, bordes duros, sin
-glow, sin vidrio, sin blur decorativo.
+Lo que este mundo rechaza: la landing analógica y fragmentada. Aquí la información vive dentro de módulos claros (bento cards), con jerarquías tipográficas mucho más agresivas y contrastantes, y un layout más geométrico y centrado.
 
 ## Palette
 
-Paleta del manual de marca, sin adiciones. Los roles son fijos:
+Paleta original conservada.
 
 | Rol | Token | Hex | Uso |
 | --- | --- | --- | --- |
-| Chasis | `--color-ink` | `#262626` | estructura, rieles, cabecera, cierres |
-| Carátula | `--color-paper` | `#E6E6E6` | fondo de página: la cara del instrumento |
-| Cara viva | `--color-white` | `#FFFFFF` | paneles activos, pantallas de mockup |
-| Grabado | `--color-gray` | `#8A8A8A` | celdas fantasma, reglas, material inerte |
-| Texto secundario | `--color-muted` | `#5C5C5C` | derivado del gris para cumplir AA (5.2:1) |
-| Señal | `--color-red` | `#C1282D` | **solo señal viva**: estado activo, foco, el punto |
+| Fondo Principal | `--color-paper` | `#E6E6E6` | Fondo absoluto de la página |
+| Superficie | `--color-white` | `#FFFFFF` | Tarjetas bento, contenedores, cabecera |
+| Texto y Bordes | `--color-ink` | `#262626` | Titulares, copy principal, y bordes (`border-ink/15`) |
+| Inactivo / Secundario | `--color-muted` | `#5C5C5C` | Descripciones, texto secundario, metadata (AA 5.2:1) |
+| Inerte | `--color-gray` | `#8A8A8A` | Elementos sin foco, reglas, placeholders |
+| Señal (Acento) | `--color-red` | `#C1282D` | Botones principales, estados activos, links |
 
-Estrategia de color: **Restrained**. Neutros más un acento, porque el visitante llega a
-evaluar y decidir. El rojo nunca decora: marca lo que está encendido.
-
-Claro, no oscuro: el visitante es un director de PyME leyendo en su oficina o en el
-celular a media mañana. La consola se lee con luz.
+Estrategia de color: **Light Bento**. El contraste principal es Blanco/Papel vs Tinta. El rojo sigue siendo la única señal vibrante en el layout.
 
 ## Type
 
-**Inter** es la única familia (compromiso de marca). El carácter no viene de la
-tipografía sino de cómo se usa:
+**Inter**. La tipografía adopta una actitud más atrevida (Opdate-style):
 
-- Display: `font-variation-settings: "opsz" 32`, tracking `-0.03em`, pesos 600-700.
-  Techo 6rem.
-- Texto: `opsz` 16, medida 65-75ch.
-- Etiquetas de instrumento: 10-11px, `letter-spacing: 0.18em`, mayúsculas. Son
-  serigrafía sobre metal: nombran un control o una lectura, **nunca** van encima de un
-  titular como antetítulo.
-- Cifras: `font-variant-numeric: tabular-nums`, siempre en celda fija.
+- Display (Titulares Hero): Centrados o masivos. `font-variation-settings: "opsz" 32`, tracking `-0.04em`, pesos 600-700. Techo 6-8rem.
+- Texto: `opsz` 16, medida 65-75ch. Color `--color-ink-soft` o `--color-muted`.
+- Etiquetas (Plates): Mantenidas para tags (`10-11px, letter-spacing: 0.18em, uppercase`), pero ahora a menudo encapsuladas en "pills" (burbujas con borde redondeado).
 
 ## Components
 
-- **Panel** (`.panel`): carátula clara sobre el chasis. Borde 1px `ink/15`, radio 2px,
-  sombra con desplazamiento y desenfoque real (`0 12px 28px -18px`), nunca halo.
-- **Readout**: lectura por celdas de ancho fijo. Las celdas apagadas se dibujan como
-  fantasma (`gray` al 14%): la ausencia está diseñada igual que la luz. Los cambios de
-  estado **saltan**, no se desvanecen.
-- **Etiqueta** (`.plate`): serigrafía en mayúsculas con tracking amplio.
-- **Cajón** (`ProjectDrawer`): cada caso es un cajón del instrumento. Cara del cajón en
-  reposo; al apuntar o enfocar sale a medias y enciende su lectura previa; al abrir,
-  lleva al caso completo.
-- **Mockups en código** (`BrowserMock`, `PhoneMock`, `ProjectScreen`): no hay fotografía
-  de los proyectos, así que la evidencia se autora: chasis de navegador y de teléfono
-  dibujados con la paleta, y adentro la interfaz real de cada cliente reconstruida con
-  sus datos verdaderos. Nunca cajas grises ni stock.
-- **Diagrama de mecanismo**: SVG autorado (Odoo → web) que demuestra la sincronización
-  de Disolab en lugar de afirmarla.
+- **Bento Card** (`.bento-card` o `.panel`): Superficie blanca (`--color-white`) sobre fondo de papel. Bordes definidos `border border-ink/15`, radio más moderno `rounded-2xl` o `rounded-xl`. Sombra sutil o nula, dependiendo de la profundidad deseada.
+- **Botón Primario**: Fondo `--color-red`, texto blanco, `rounded-full` (pill) o `rounded-xl`.
+- **Hero**: Tipografía gigante, a menudo centrada, con un bento grid de imágenes o un gran mockup debajo.
 
 ## Motion
 
-Un solo momento orquestado: el **encendido de la consola** en la portada. Los paneles
-llegan en secuencia, el contador de sincronización corre y la señal roja se enciende al
-final. Ease exponencial de salida, desde un estado ya visible: si el JavaScript no
-corre, la consola aparece encendida y completa.
-
-Fuera de ahí, el movimiento es de instrumento: el cajón que sale, el punto de proceso
-que baja por el riel, el estado que salta. Nada de entradas idénticas sección tras
-sección. `prefers-reduced-motion` deja todo en su estado final.
+- Las entradas pueden tener un *fade up* suave.
+- Las interacciones en las tarjetas (hover) pueden iluminar el borde (`border-ink`) o añadir una sutil sombra o elevación.
+- `prefers-reduced-motion` respeta todo en su estado final.
 
 ## Rules
 
-- Sin antetítulos: si una etiqueta va sobre un titular, se borra.
-- Sin tarjetas iguales como estructura de página; los paneles se diferencian por función.
-- El rojo nunca es fondo de área grande ni decoración; es señal.
-- Radio máximo 2px salvo el chasis de dispositivo, que es hardware.
-- Superficies del navegador (selección, caret, scrollbar, anillo de foco, subrayados)
-  tematizadas desde la paleta.
-- Contraste AA mínimo, foco visible, 320px real, semántica y teclado intactos.
+- Uso intensivo de Bento Grids para mostrar servicios, proceso o métricas.
+- Títulos colosales.
+- El rojo es el único color de acción.
+- El fondo es `--color-paper` y el contenido importante vive en módulos `--color-white`.
