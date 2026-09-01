@@ -97,12 +97,6 @@ export default async function LocaleLayout({
         />
       </head>
       <body className="flex min-h-full flex-col">
-        <a
-          href="#contenido"
-          className="plate sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:bg-red focus:px-4 focus:py-3 focus:text-white"
-        >
-          {current === "en" ? "Skip to content" : "Ir al contenido"}
-        </a>
         <Header locale={current} />
         <main id="contenido" className="flex-1 pt-[5.25rem]">
           {children}
