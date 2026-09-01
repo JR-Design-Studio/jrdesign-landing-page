@@ -187,7 +187,53 @@ export const projects: Project[] = [
       en: "An education platform that makes it easy to discover courses, understand what you will learn and start from anywhere.",
     },
     cover: null,
-    shots: [],
+    shots: [
+      {
+        src: "/projects/cases/arqademy/home.png",
+        w: 2056,
+        h: 1294,
+        caption: {
+          es: "La portada abre con la promesa y las cifras de la plataforma: alumnos, cursos y calificación.",
+          en: "The home page opens with the promise and the platform's numbers: students, courses and rating.",
+        },
+      },
+      {
+        src: "/projects/cases/arqademy/beneficios.png",
+        w: 2044,
+        h: 1286,
+        caption: {
+          es: "Lo que se gana se enuncia en frases cortas: 15 minutos al día, rutas de principiante a experto, comunidad y asistente de dudas.",
+          en: "What you get is stated in short lines: 15 minutes a day, beginner-to-expert tracks, community and an assistant for questions.",
+        },
+      },
+      {
+        src: "/projects/cases/arqademy/catalogo.png",
+        w: 2042,
+        h: 1285,
+        caption: {
+          es: "El catálogo se filtra por área y por software, y ordena la oferta amplia en bloques legibles.",
+          en: "The catalog filters by area and by software, sorting a broad offering into readable blocks.",
+        },
+      },
+      {
+        src: "/projects/cases/arqademy/curso.png",
+        w: 2036,
+        h: 1281,
+        caption: {
+          es: "La ficha del curso deja a la vista qué se aprende, quién lo imparte y qué incluye antes de inscribirse.",
+          en: "The course page shows what you learn, who teaches it and what it includes before enrolling.",
+        },
+      },
+      {
+        src: "/projects/cases/arqademy/membresia.png",
+        w: 2030,
+        h: 1277,
+        caption: {
+          es: "La membresía reúne el catálogo completo en una sola entrada, para quien prefiere explorar antes que elegir un curso suelto.",
+          en: "The membership gathers the whole catalog behind a single entry, for those who would rather explore than pick one course.",
+        },
+      },
+    ],
   },
   {
     slug: "lilitu",
