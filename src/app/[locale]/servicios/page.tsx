@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { ArrowLink } from "@/components/ArrowLink";
+import { FaqItem } from "@/components/FaqItem";
 import { faqs, servicePlans } from "@/lib/content";
 import { isLocale, locales, type Locale } from "@/lib/i18n";
 
@@ -105,21 +106,7 @@ export default async function ServicesPage({ params }: { params: Params }) {
 
               <div className="flex flex-col gap-3">
                 {plan.faqs.map((faq) => (
-                  <details
-                    key={faq.q.es}
-                    className="group rounded-xl border border-ink/15 bg-white px-5 py-4"
-                  >
-                    <summary className="flex cursor-pointer list-none items-center justify-between gap-6 text-[1.0625rem] text-ink marker:content-none [&::-webkit-details-marker]:hidden">
-                      {faq.q[l]}
-                      <span aria-hidden className="relative block size-3.5 shrink-0">
-                        <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-ink" />
-                        <span className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-ink transition-transform duration-300 group-open:scale-y-0" />
-                      </span>
-                    </summary>
-                    <p className="mt-3 text-base leading-relaxed text-ink-soft">
-                      {faq.a[l]}
-                    </p>
-                  </details>
+                  <FaqItem key={faq.q.es} question={faq.q[l]} answer={faq.a[l]} />
                 ))}
               </div>
             </div>
