@@ -16,8 +16,8 @@ const copy = {
     en: "Your studio of choice since 2018",
   },
   lede: {
-    es: "Diseñamos y programamos sitios a la medida para negocios de cualquier tamaño, sin plantillas y sin intermediarios.",
-    en: "We design and build custom websites for businesses of any size, with no templates and no middlemen.",
+    es: "Diseñamos y desarrollamos sitios a la medida para negocios de cualquier tamaño, sin plantillas y sin intermediarios.",
+    en: "We design and develop custom websites for businesses of any size, with no templates and no middlemen.",
   },
   statement: {
     es: "Trabajamos en remoto desde Guadalajara con clientes de México y Estados Unidos. Lo que empezó como el trabajo de una persona hoy es un equipo: diseño y programación bajo el mismo techo, así que quien contesta tu correo es quien construye tu sitio.",
@@ -39,7 +39,7 @@ const copy = {
       },
       {
         t: "Conectado a tu operación",
-        d: "Si tu catálogo o tus pedidos viven en un ERP como Odoo, la web lee de ahí. Nadie captura la misma información dos veces.",
+        d: "Si tu catálogo o tus pedidos están gestionados en un ERP como Odoo, tu sitio web se conecta directamente con él. La información se sincroniza automáticamente, evitando capturas duplicadas y reduciendo errores.",
       },
       {
         t: "Lo administras tú",
@@ -47,7 +47,7 @@ const copy = {
       },
       {
         t: "Alcance y precio cerrados",
-        d: "La propuesta trae qué incluye, cuánto tarda y cuánto cuesta desde el inicio. Sin cobros que aparecen a medio proyecto.",
+        d: "La propuesta es clara desde el inicio: incluye qué se realizará, cuánto tiempo tomará y cuál será el costo total. Sin costos ocultos ni cargos inesperados a mitad del proyecto.",
       },
       {
         t: "Avances a la vista",
@@ -65,7 +65,7 @@ const copy = {
       },
       {
         t: "Wired to your operation",
-        d: "If your catalog or your orders live in an ERP such as Odoo, the site reads from there. Nobody enters the same data twice.",
+        d: "If your catalog or orders are managed through an ERP like Odoo, your website connects directly to it. Information is synced automatically, eliminating duplicate data entry and reducing errors.",
       },
       {
         t: "You run it",
@@ -73,7 +73,7 @@ const copy = {
       },
       {
         t: "Fixed scope and price",
-        d: "The proposal states what is included, how long it takes and what it costs, from the start. No charges appearing mid-project.",
+        d: "The proposal is clear from the start: it outlines what will be done, how long it will take, and the total cost. No hidden fees or unexpected charges halfway through the project.",
       },
       {
         t: "Progress in the open",
@@ -125,7 +125,7 @@ export default async function AboutPage({ params }: { params: Params }) {
 
   const stats = [
     {
-      v: `${new Date().getFullYear() - site.since}+`,
+      v: `+${new Date().getFullYear() - site.since}`,
       k: l === "es" ? "Años de experiencia" : "Years of experience",
     },
     { v: "9", k: l === "es" ? "Casos publicados" : "Published cases" },
@@ -156,15 +156,15 @@ export default async function AboutPage({ params }: { params: Params }) {
           </dl>
         </div>
 
-        <div className="flex items-end justify-center overflow-hidden rounded-[28px] bg-paper pt-10">
+        <div className="flex items-end justify-center overflow-hidden rounded-[28px]">
           <Image
-            src="/juan-lizaola.png"
+            src="/juan-lizaola.webp"
             alt="Juan Lizaola"
             width={375}
             height={666}
-            sizes="(max-width: 1024px) 60vw, 340px"
+            sizes="(max-width: 1024px) 100vw, 50vw"
             priority
-            className="h-auto w-[14rem] object-contain sm:w-[17rem]"
+            className="h-auto w-full object-cover"
           />
         </div>
       </header>

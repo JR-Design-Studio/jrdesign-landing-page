@@ -13,8 +13,8 @@ export function generateStaticParams() {
 const copy = {
   title: { es: "Conoce nuestros servicios", en: "Our services" },
   lede: {
-    es: "Diseñamos, programamos y damos soporte con el mismo equipo, de principio a fin.",
-    en: "We design, build and support with the same team, from start to finish.",
+    es: "Diseñamos, desarrollamos y damos soporte con el mismo equipo, de principio a fin.",
+    en: "We design, develop and support with the same team, from start to finish.",
   },
   quote: { es: "Solicitar una cotización", en: "Request a quote" },
 };

@@ -14,8 +14,8 @@ export function generateStaticParams() {
 const copy = {
   title: { es: "Nuestro trabajo", en: "Our work" },
   lede: {
-    es: "Proyectos publicados, cada uno con la historia de cómo se resolvió.",
-    en: "Live projects, each with the story of how it was solved.",
+    es: "Proyectos publicados, acompañados de la historia detrás de cada uno y cómo logramos resolver sus principales desafíos.",
+    en: "Published projects, accompanied by the story behind each one and how we managed to solve their main challenges.",
   },
   ctaTitle: { es: "¿Y si el siguiente caso fuera el ", en: "What if the next case were " },
   ctaTitleAccent: { es: "tuyo", en: "yours" },
